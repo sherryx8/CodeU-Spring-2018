@@ -49,6 +49,22 @@
         <li>You can <a href="/testdata">load test data</a> to fill the site with
             example data.</li>
       </ul>
+
+      <h2>Team <i>Cicada</i></h2>
+      <h3>Members</h3>
+
+      <ul>
+        <li>Thar Min Htet</li>
+        <li>Sherry Xu</li>
+        <li>Tishauna Wilson</li>
+        <li>Catherine Tsuei</li>
+      </ul>
+
+      <h3>Advisor</h3>
+      <ul>
+        <li>Shashank Goyal</li>
+      </ul>
+
     </div>
   </div>
 </body>
