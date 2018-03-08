@@ -38,11 +38,11 @@
 
       <h1>About the CodeU Chat App</h1>
       <p>
-        This is an example chat application designed to be a starting point
-        for your CodeU project team work. Here's some stuff to think about:
+        This is a chat application designed by Team Cicada for Google CodeU Spring 2018. 
+        Stay tuned as we add cool new features and designs. 
       </p>
 
-      <ul>
+      <!-- <ul>
         <li><strong>Algorithms and data structures:</strong> We've made the app
             and the code as simple as possible. You will have to extend the
             existing data structures to support your enhancements to the app,
@@ -55,15 +55,27 @@
           What needs do they have? How could you help? Think about technical
           requirements, privacy concerns, and accessibility and
           internationalization.</li>
-      </ul>
+      </ul> -->
 
       <p>
-        This is your code now. Get familiar with it and get comfortable
-        working with your team to plan and make changes. Start by updating the
-        homepage and this about page to tell your users more about your team.
-        This page should also be used to describe the features and improvements
-        you've added.
+        More about Team Cicada:
       </p>
+      
+      Students
+      <ul> 
+        <li><strong>Catherine Tsuei</strong> Case Western Reserve University </li>
+        <li><strong>Thar Min Htet</strong> Worcester Polytechnic Institute </li>
+        <li><strong>Tishauna Wilson</strong> Florida A&M </li>
+        <li><strong>Sherry Xu</strong> Wellesley College </li>
+      </ul>
+
+      Advisor
+      <ul>
+        <li><strong>Shashank Goyal</strong> Google </li>
+      </ul>
+
+
+      
     </div>
   </div>
 </body>
