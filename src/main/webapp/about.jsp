@@ -65,7 +65,7 @@
       <ul> 
         <li><strong>Catherine Tsuei</strong> Case Western Reserve University </li>
         <li><strong>Thar Min Htet</strong> Worcester Polytechnic Institute </li>
-        <li><strong>Tishauna Wilson</strong> Florida A&M </li>
+        <li><strong>Tishauna Wilson</strong> Florida A&M University </li>
         <li><strong>Sherry Xu</strong> Wellesley College </li>
       </ul>
 
