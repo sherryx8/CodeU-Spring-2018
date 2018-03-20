@@ -12,9 +12,9 @@ public class RegisterServlet extends HttpServlet
 {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response)
-      throws IOException, ServletException
+    throws IOException, ServletException
   { 
-  	  // forward request to register.jsp file
-      request.getRequestDispatcher("/WEB-INF/view/register.jsp").forward(request, response);
+    // Forward request to register.jsp file
+    request.getRequestDispatcher("/WEB-INF/view/register.jsp").forward(request, response);
   }//doGet
 }//RegisterServlet
