@@ -96,6 +96,8 @@ public class LoginServletTest {
     
     loginServlet.doPost(mockRequest, mockResponse);
     
+    Mockito.verify(mockUserStore, Mockito.never()).addUser(Mockito.any(User.class));
+    
     Mockito.verify(mockRequest).setAttribute("error", "Invalid password.");
 	Mockito.verify(mockRequestDispatcher).forward(mockRequest, mockResponse);
   }
