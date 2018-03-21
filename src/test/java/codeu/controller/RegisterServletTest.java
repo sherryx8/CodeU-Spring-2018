@@ -1,5 +1,4 @@
 package codeu.controller;
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -13,6 +12,7 @@ import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 
+<<<<<<< HEAD
 import codeu.model.data.User;
 import codeu.model.store.basic.UserStore;
 
@@ -94,3 +94,29 @@ public class RegisterServletTest
    Mockito.verify(mockResponse).sendRedirect("/conversations");
  }
 }//RegisterServletTest
+=======
+public class RegisterServletTest
+{
+  private RegisterServlet registerServlet;
+  private HttpServletRequest mockRequest;
+  private PrintWriter mockPrintWriter;
+  private HttpServletResponse mockResponse;
+ 
+  @Before
+  public void setup() throws IOException 
+  {
+    registerServlet = new RegisterServlet();
+    mockRequest = Mockito.mock(HttpServletRequest.class);
+    mockPrintWriter = Mockito.mock(PrintWriter.class);
+    mockResponse = Mockito.mock(HttpServletResponse.class);
+    Mockito.when(mockResponse.getWriter()).thenReturn(mockPrintWriter);
+  }//setup
+
+  @Test
+  public void testDoGet() throws IOException, ServletException
+  {
+    registerServlet.doGet(mockRequest, mockResponse);
+    Mockito.verify(mockPrintWriter).println("<h1>RegisterServlet GET request.</h1>");
+  }//testDoGet
+}//RegisterServletTest
+>>>>>>> origin/master

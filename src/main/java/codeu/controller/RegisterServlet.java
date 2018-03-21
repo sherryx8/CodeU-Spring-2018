@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
 * Servlet class responsible for user registration.
 */
+<<<<<<< HEAD
 public class RegisterServlet extends HttpServlet 
 {
 	@Override
@@ -75,5 +76,15 @@ public class RegisterServlet extends HttpServlet
 	{
 		this.userStore = userStore;
 	}//setUserStore
+=======
+public class RegisterServlet extends HttpServlet
+{
+  @Override
+  public void doGet(HttpServletRequest request, HttpServletResponse response)
+      throws IOException, ServletException
+  { 
+    response.getWriter().println("<h1>RegisterServlet GET request.</h1>");
+  }//doGet
+>>>>>>> origin/master
 }//RegisterServlet
 
