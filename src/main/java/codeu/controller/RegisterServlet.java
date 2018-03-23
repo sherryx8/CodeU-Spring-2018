@@ -30,30 +30,30 @@ public class RegisterServlet extends HttpServlet
     throws IOException, ServletException 
   {
     String username = request.getParameter("username");
-		String password = request.getParameter("password");
+    String password = request.getParameter("password");
     // Encrypt password
-		String passwordHash = BCrypt.hashpw(password, BCrypt.gensalt());
+    String passwordHash = BCrypt.hashpw(password, BCrypt.gensalt());
 		
 		// Username Error Handling
-		if (!username.matches("[\\w*\\s*]*")) 
-		{
-	  	request.setAttribute("error", "Please enter only letters, numbers, and spaces.");
-	  	request.getRequestDispatcher("/WEB-INF/view/register.jsp").forward(request, response);
-	  	return;
+    if (!username.matches("[\\w*\\s*]*")) 
+    {
+      request.setAttribute("error", "Please enter only letters, numbers, and spaces.");
+      request.getRequestDispatcher("/WEB-INF/view/register.jsp").forward(request, response);
+      return;
 		}//if
 
-		//Detect whether a username is taken & to register new users
-		if (userStore.isUserRegistered(username)) 
-		{
-	  	request.setAttribute("error", "That username is already taken.");
-   	  request.getRequestDispatcher("/WEB-INF/view/register.jsp").forward(request, response);
-	  	return;
-		}//if
+    //Detect whether a username is taken & to register new users
+    if (userStore.isUserRegistered(username)) 
+    {
+      request.setAttribute("error", "That username is already taken.");
+      request.getRequestDispatcher("/WEB-INF/view/register.jsp").forward(request, response);
+      return;
+    }//if
 
-		User user = new User(UUID.randomUUID(), username, passwordHash, Instant.now());
-		userStore.addUser(user);
+    User user = new User(UUID.randomUUID(), username, passwordHash, Instant.now());
+    userStore.addUser(user);
 
-		response.sendRedirect("/login");
+    response.sendRedirect("/login");
 		   
   }//doPost
 
@@ -69,8 +69,8 @@ public class RegisterServlet extends HttpServlet
   @Override
   public void init() throws ServletException 
   {
-		super.init();
-		setUserStore(UserStore.getInstance());
+    super.init();
+    setUserStore(UserStore.getInstance());
   }//init
 
   /**
@@ -79,7 +79,7 @@ public class RegisterServlet extends HttpServlet
   */
   void setUserStore(UserStore userStore)
   {
-		this.userStore = userStore;
+    this.userStore = userStore;
   }//setUserStore
 
 }//RegisterServlet
