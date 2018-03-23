@@ -54,8 +54,8 @@ public class RegisterServlet extends HttpServlet
 
 		response.sendRedirect("/login");
 		   
-		response.getWriter().println("<p>Username: " + username + "</p>");
-		response.getWriter().println("<p>Password: " + password + "</p>");
+		//response.getWriter().println("<p>Username: " + username + "</p>");
+		//response.getWriter().println("<p>Password: " + password + "</p>");
   }//doPost
 
   /**

@@ -4,13 +4,24 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
+
+
+import codeu.model.data.User;
+import codeu.model.store.basic.UserStore;
+//import codeu.controller.loginServlet;
+
+import org.mindrot.jbcrypt.*;
 
 public class RegisterServletTest
 {
   private RegisterServlet registerServlet;
+  private LoginServlet loginServlet;
   private HttpServletRequest mockRequest;
   private HttpServletResponse mockResponse;
   private RequestDispatcher mockRequestDispatcher;
@@ -31,4 +42,31 @@ public class RegisterServletTest
     registerServlet.doGet(mockRequest, mockResponse);
     Mockito.verify(mockRequestDispatcher).forward(mockRequest, mockResponse);
   }//testDoGet
+
+  @Test
+  public void testDoPost_hashedPassword() throws IOException, ServletException 
+  {
+    Mockito.when(mockRequest.getParameter("username")).thenReturn("test username");
+    Mockito.when(mockRequest.getParameter("password")).thenReturn("test password");
+
+    UserStore mockUserStore = Mockito.mock(UserStore.class);
+    Mockito.when(mockUserStore.isUserRegistered("test username")).thenReturn(false);
+    registerServlet.setUserStore(mockUserStore);
+
+
+    HttpSession mockSession = Mockito.mock(HttpSession.class);
+    Mockito.when(mockRequest.getSession()).thenReturn(mockSession);
+
+    registerServlet.doPost(mockRequest, mockResponse);
+
+    ArgumentCaptor<User> userArgumentCaptor = ArgumentCaptor.forClass(User.class);
+
+    Mockito.verify(mockUserStore).addUser(userArgumentCaptor.capture());
+
+    Assert.assertNotEquals(userArgumentCaptor.getValue().getPassword(), "test password");
+    Assert.assertTrue(BCrypt.checkpw("test password", userArgumentCaptor.getValue().getPassword()));
+
+    Mockito.verify(mockResponse).sendRedirect("/login");
+  }//testDoPost_hashedPassword
+
 }//RegisterServletTest
