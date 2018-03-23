@@ -27,9 +27,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.mindrot.jbcrypt.*;
 
-
-
-
 /** Servlet class responsible for the login page. */
 public class LoginServlet extends HttpServlet {
 

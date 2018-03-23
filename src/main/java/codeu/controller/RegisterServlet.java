@@ -31,6 +31,7 @@ public class RegisterServlet extends HttpServlet
   {
     String username = request.getParameter("username");
 		String password = request.getParameter("password");
+    // Encrypt password
 		String passwordHash = BCrypt.hashpw(password, BCrypt.gensalt());
 		
 		// Username Error Handling
@@ -54,8 +55,6 @@ public class RegisterServlet extends HttpServlet
 
 		response.sendRedirect("/login");
 		   
-		//response.getWriter().println("<p>Username: " + username + "</p>");
-		//response.getWriter().println("<p>Password: " + password + "</p>");
   }//doPost
 
   /**

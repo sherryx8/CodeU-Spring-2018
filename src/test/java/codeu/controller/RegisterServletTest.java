@@ -14,7 +14,6 @@ import org.mockito.Mockito;
 
 import codeu.model.data.User;
 import codeu.model.store.basic.UserStore;
-//import codeu.controller.loginServlet;
 
 import org.mindrot.jbcrypt.*;
 
@@ -43,7 +42,7 @@ public class RegisterServletTest
     Mockito.verify(mockRequestDispatcher).forward(mockRequest, mockResponse);
   }//testDoGet
 
-  @Test
+  @Test // This tests that the password supplied to register is hashed properly
   public void testDoPost_hashedPassword() throws IOException, ServletException 
   {
     Mockito.when(mockRequest.getParameter("username")).thenReturn("test username");
@@ -53,16 +52,15 @@ public class RegisterServletTest
     Mockito.when(mockUserStore.isUserRegistered("test username")).thenReturn(false);
     registerServlet.setUserStore(mockUserStore);
 
-
     HttpSession mockSession = Mockito.mock(HttpSession.class);
     Mockito.when(mockRequest.getSession()).thenReturn(mockSession);
 
     registerServlet.doPost(mockRequest, mockResponse);
 
     ArgumentCaptor<User> userArgumentCaptor = ArgumentCaptor.forClass(User.class);
-
     Mockito.verify(mockUserStore).addUser(userArgumentCaptor.capture());
 
+    // checks that password is stored coreectly
     Assert.assertNotEquals(userArgumentCaptor.getValue().getPassword(), "test password");
     Assert.assertTrue(BCrypt.checkpw("test password", userArgumentCaptor.getValue().getPassword()));
 
