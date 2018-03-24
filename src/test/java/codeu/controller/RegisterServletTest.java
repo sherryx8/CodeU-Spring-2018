@@ -10,17 +10,14 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
-
+import org.mindrot.jbcrypt.*;
 
 import codeu.model.data.User;
 import codeu.model.store.basic.UserStore;
 
-import org.mindrot.jbcrypt.*;
-
 public class RegisterServletTest
 {
   private RegisterServlet registerServlet;
-  private LoginServlet loginServlet;
   private HttpServletRequest mockRequest;
   private HttpServletResponse mockResponse;
   private RequestDispatcher mockRequestDispatcher;
@@ -60,7 +57,7 @@ public class RegisterServletTest
     ArgumentCaptor<User> userArgumentCaptor = ArgumentCaptor.forClass(User.class);
     Mockito.verify(mockUserStore).addUser(userArgumentCaptor.capture());
 
-    // checks that password is stored coreectly
+    // checks that password is stored correctly
     Assert.assertNotEquals(userArgumentCaptor.getValue().getPassword(), "test password");
     Assert.assertTrue(BCrypt.checkpw("test password", userArgumentCaptor.getValue().getPassword()));
 

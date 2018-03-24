@@ -34,13 +34,13 @@ public class RegisterServlet extends HttpServlet
     // Encrypt password
     String passwordHash = BCrypt.hashpw(password, BCrypt.gensalt());
 		
-		// Username Error Handling
+    // Username Error Handling
     if (!username.matches("[\\w*\\s*]*")) 
     {
       request.setAttribute("error", "Please enter only letters, numbers, and spaces.");
       request.getRequestDispatcher("/WEB-INF/view/register.jsp").forward(request, response);
       return;
-		}//if
+    }//if
 
     //Detect whether a username is taken & to register new users
     if (userStore.isUserRegistered(username)) 
@@ -53,8 +53,7 @@ public class RegisterServlet extends HttpServlet
     User user = new User(UUID.randomUUID(), username, passwordHash, Instant.now());
     userStore.addUser(user);
 
-    response.sendRedirect("/login");
-		   
+    response.sendRedirect("/login");		   
   }//doPost
 
   /**
