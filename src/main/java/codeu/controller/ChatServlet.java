@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
+import java.util.regex.*;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -74,6 +75,27 @@ public class ChatServlet extends HttpServlet {
    */
   void setUserStore(UserStore userStore) {
     this.userStore = userStore;
+  }
+
+  /**
+   * This function formats any URL's within a message into HTML links.
+   */
+  String formatURL(String messageContent){
+    // URL regex
+    String patternString = "(http://www\\.|https://www\\.|http://|https://)+[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(/.*)?";
+    Pattern pattern = Pattern.compile(patternString);
+    Matcher m = pattern.matcher(messageContent);
+    // Used to rebuild messageContent
+    StringBuffer sb = new StringBuffer(messageContent.length());
+
+    // Convert each url found into an HTML link
+    while(m.find()){
+      String url = m.group();
+      m.appendReplacement(sb, "<a href = " + url + " >" + url + "</a>");
+    } 
+    m.appendTail(sb);
+
+    return sb.toString();
   }
 
   /**
@@ -143,12 +165,14 @@ public class ChatServlet extends HttpServlet {
     // this removes any HTML from the message content
     String cleanedMessageContent = Jsoup.clean(messageContent, Whitelist.none());
 
+    String formattedMessageContent = formatURL(cleanedMessageContent);
+
     Message message =
         new Message(
             UUID.randomUUID(),
             conversation.getId(),
             user.getId(),
-            cleanedMessageContent,
+            formattedMessageContent,
             Instant.now());
 
     messageStore.addMessage(message);
