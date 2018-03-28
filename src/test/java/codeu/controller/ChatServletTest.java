@@ -223,6 +223,6 @@ public class ChatServletTest {
         , messageArgumentCaptor.getValue().getContent());
 
     Mockito.verify(mockResponse).sendRedirect("/chat/test_conversation");
-
   }
+  
 }
