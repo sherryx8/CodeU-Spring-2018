@@ -91,7 +91,7 @@ public class ChatServlet extends HttpServlet {
     // Convert each url found into an HTML link
     while(m.find()){
       String url = m.group();
-      m.appendReplacement(sb, "<a href = " + url + " >" + url + "</a>");
+      m.appendReplacement(sb, "<a href = " + url + ">" + url + "</a>");
     } 
     m.appendTail(sb);
 
@@ -164,7 +164,7 @@ public class ChatServlet extends HttpServlet {
 
     // this removes any HTML from the message content
     String cleanedMessageContent = Jsoup.clean(messageContent, Whitelist.none());
-
+    // this formats any URLs in the message content
     String formattedMessageContent = formatURL(cleanedMessageContent);
 
     Message message =
