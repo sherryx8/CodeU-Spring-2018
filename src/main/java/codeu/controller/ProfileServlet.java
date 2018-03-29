@@ -33,7 +33,7 @@ public class ProfileServlet extends HttpServlet {
   public void doGet(HttpServletRequest request, HttpServletResponse response)
     throws IOException, ServletException
   {
-    response.getWriter().println("<h1>ProfileServlet Get Request.</h1>");
+    request.getRequestDispatcher("/WEB-INF/view/profile.jsp").forward(request, response);
 
     // String username = (String) request.getSession().getAttribute("user"); //Dummny User
     // // User user = userStore.getUser(username);
