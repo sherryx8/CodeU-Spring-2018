@@ -65,8 +65,8 @@ public class ChatServlet extends HttpServlet {
 	}
 
 	/**
-	 * Sets the MessageStore used by this servlet. This function provides a
-	 * common setup method for use by the test framework or the servlet's init()
+	 * Sets the MessageStore used by this servlet. This function provides a common
+	 * setup method for use by the test framework or the servlet's init()
 	 * function.
 	 */
 	void setMessageStore(MessageStore messageStore) {
@@ -84,9 +84,9 @@ public class ChatServlet extends HttpServlet {
 
 	/**
 	 * This function fires when a user navigates to the chat page. It gets the
-	 * conversation title from the URL, finds the corresponding Conversation,
-	 * and fetches the messages in that Conversation. It then forwards to
-	 * chat.jsp for rendering.
+	 * conversation title from the URL, finds the corresponding Conversation, and
+	 * fetches the messages in that Conversation. It then forwards to chat.jsp for
+	 * rendering.
 	 */
 	@Override
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -111,11 +111,11 @@ public class ChatServlet extends HttpServlet {
 	}
 
 	/**
-	 * This function fires when a user submits the form on the chat page. It
-	 * gets the logged-in username from the session, the conversation title from
-	 * the URL, and the chat message from the submitted form data. It creates a
-	 * new Message from that data, adds it to the model, and then redirects back
-	 * to the chat page.
+	 * This function fires when a user submits the form on the chat page. It gets
+	 * the logged-in username from the session, the conversation title from the
+	 * URL, and the chat message from the submitted form data. It creates a new
+	 * Message from that data, adds it to the model, and then redirects back to
+	 * the chat page.
 	 */
 	@Override
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -166,8 +166,7 @@ public class ChatServlet extends HttpServlet {
 	private final int MARKDOWN_ESCAPE_IDENTIFIER_LENGTH = "\\*".length();
 
 	/**
-	 * this function replaces a word surrounded by ** and replaces it with a
-	 * bold HTML tag
+	 * this function replaces a word surrounded by ** with a bold HTML tag
 	 */
 	public String markDownBoldToHTML(String markdownChunk) {
 		String content = markdownChunk.substring(MARKDOWN_BOLD_IDENTIFIER_LENGTH,
@@ -176,8 +175,7 @@ public class ChatServlet extends HttpServlet {
 	}
 
 	/**
-	 * this function replaces a word surrounded by * and replaces it with an
-	 * italics HTML tag
+	 * this function replaces a word surrounded by * with an italics HTML tag
 	 */
 	public String markDownItalicToHTML(String markdownChunk) {
 		String content = markdownChunk.substring(MARKDOWN_ITALIC_IDENTIFIER_LENGTH,
@@ -186,23 +184,27 @@ public class ChatServlet extends HttpServlet {
 	}
 
 	/**
-	 * this function replaces a word surrounded by *** and replaces it with a
-	 * bold-italics HTML tag
+	 * this function replaces a word surrounded by *** with a bold-italics HTML
+	 * tag
 	 */
 	public String markDownBoldItalicToHTML(String markdownChunk) {
 		String content = markdownChunk.substring(MARKDOWN_BOLDITALIC_IDENTIFIER_LENGTH,
 				markdownChunk.length() - MARKDOWN_BOLDITALIC_IDENTIFIER_LENGTH);
 		return String.format("<b><i>%s</i></b>", content);
 	}
-	
-	public String markDownEscapeToHTML(String markdownChunk){
-		String content = markdownChunk.substring(MARKDOWN_ESCAPE_IDENTIFIER_LENGTH, markdownChunk.length() - MARKDOWN_ESCAPE_IDENTIFIER_LENGTH);
-        return String.format("%s", content);
+
+	/**
+	 * this function replaces \* with *
+	 */
+	public String markDownEscapeToHTML(String markdownChunk) {
+		String content = markdownChunk.substring(MARKDOWN_ESCAPE_IDENTIFIER_LENGTH,
+				markdownChunk.length() - MARKDOWN_ESCAPE_IDENTIFIER_LENGTH);
+		return String.format("%s", content);
 	}
 
 	/**
-	 * this function replaces *, **, and *** identifiers with the appropriate
-	 * HTML tag
+	 * this function replaces *, **, and *** identifiers with the appropriate HTML
+	 * tag
 	 */
 	public String markDownToHTML(String message) {
 		// bold-italic html converter ***
@@ -229,14 +231,14 @@ public class ChatServlet extends HttpServlet {
 			chunk = matcherItalic.group();
 			message = message.replace(chunk, markDownItalicToHTML(chunk));
 		}
-		
+
 		// escape character html converter
-        Pattern patternEscape = Pattern.compile("(\\\\\\*)");
-	    Matcher matcherEscape = patternEscape.matcher(message);
-        while (matcherEscape.find()){
-        	chunk = matcherEscape.group();
-        	message = message.replace(chunk, "*");
-        }
+		Pattern patternEscape = Pattern.compile("(\\\\\\*)");
+		Matcher matcherEscape = patternEscape.matcher(message);
+		while (matcherEscape.find()) {
+			chunk = matcherEscape.group();
+			message = message.replace(chunk, "*");
+		}
 		return message;
 	}
 }
