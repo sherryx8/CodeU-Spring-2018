@@ -56,7 +56,7 @@ public class ChatServlet extends HttpServlet {
   }
 
   /**
-   * Sets the ConversationStore used by this servlet. This function provides a common setup method 
+   * Sets the ConversationStore used by this servlet. This function provides a common setup method
    * for use by the test framework or the servlet's init() function.
    */
   void setConversationStore(ConversationStore conversationStore) {
@@ -81,7 +81,7 @@ public class ChatServlet extends HttpServlet {
 
   /**
    * This function fires when a user navigates to the chat page. It gets the conversation title from
-   * the URL, finds the corresponding Conversation, and fetches the messages in that Conversation. 
+   * the URL, finds the corresponding Conversation, and fetches the messages in that Conversation.
    * It then forwards to chat.jsp for rendering.
    */
   @Override
@@ -114,7 +114,7 @@ public class ChatServlet extends HttpServlet {
    * redirects back to the chat page.
    */
   @Override
-  public void doPost(HttpServletRequest request, HttpServletResponse response) 
+  public void doPost(HttpServletRequest request, HttpServletResponse response)
       throws IOException, ServletException {
 
     String username = (String) request.getSession().getAttribute("user");
