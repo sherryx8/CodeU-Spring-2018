@@ -163,9 +163,11 @@ public class ChatServlet extends HttpServlet {
 	private final int MARKDOWN_BOLDITALIC_IDENTIFIER_LENGTH = "***".length();
 	private final int MARKDOWN_BOLD_IDENTIFIER_LENGTH = "**".length();
 	private final int MARKDOWN_ITALIC_IDENTIFIER_LENGTH = "*".length();
+	private final int MARKDOWN_ESCAPE_IDENTIFIER_LENGTH = "\\*".length();
 
 	/**
-	 * this function replaces a word surrounded by ** and replaces it with a bold HTML tag
+	 * this function replaces a word surrounded by ** and replaces it with a
+	 * bold HTML tag
 	 */
 	public String markDownBoldToHTML(String markdownChunk) {
 		String content = markdownChunk.substring(MARKDOWN_BOLD_IDENTIFIER_LENGTH,
@@ -174,7 +176,8 @@ public class ChatServlet extends HttpServlet {
 	}
 
 	/**
-	 * this function replaces a word surrounded by * and replaces it with an italics HTML tag
+	 * this function replaces a word surrounded by * and replaces it with an
+	 * italics HTML tag
 	 */
 	public String markDownItalicToHTML(String markdownChunk) {
 		String content = markdownChunk.substring(MARKDOWN_ITALIC_IDENTIFIER_LENGTH,
@@ -183,20 +186,27 @@ public class ChatServlet extends HttpServlet {
 	}
 
 	/**
-	 * this function replaces a word surrounded by *** and replaces it with a bold-italics HTML tag
+	 * this function replaces a word surrounded by *** and replaces it with a
+	 * bold-italics HTML tag
 	 */
 	public String markDownBoldItalicToHTML(String markdownChunk) {
 		String content = markdownChunk.substring(MARKDOWN_BOLDITALIC_IDENTIFIER_LENGTH,
 				markdownChunk.length() - MARKDOWN_BOLDITALIC_IDENTIFIER_LENGTH);
 		return String.format("<b><i>%s</i></b>", content);
 	}
+	
+	public String markDownEscapeToHTML(String markdownChunk){
+		String content = markdownChunk.substring(MARKDOWN_ESCAPE_IDENTIFIER_LENGTH, markdownChunk.length() - MARKDOWN_ESCAPE_IDENTIFIER_LENGTH);
+        return String.format("%s", content);
+	}
 
 	/**
-	 * this function replaces *, **, and *** identifiers with the appropriate HTML tag
+	 * this function replaces *, **, and *** identifiers with the appropriate
+	 * HTML tag
 	 */
 	public String markDownToHTML(String message) {
 		// bold-italic html converter ***
-		Pattern patternBoldItalic = Pattern.compile("([*_]{2})([*_])([^\n]+?)([*_]{2})([*_])");
+		Pattern patternBoldItalic = Pattern.compile("(?<!\\\\)([*_]{2})([*_])([^\n]+?)([*_]{2})([*_])");
 		Matcher matcherBoldItalic = patternBoldItalic.matcher(message);
 		String chunk;
 		while (matcherBoldItalic.find()) {
@@ -205,7 +215,7 @@ public class ChatServlet extends HttpServlet {
 		}
 
 		// bold html converter **
-		Pattern patternBold = Pattern.compile("(?<!\\))([*]{2})([^\n]+?)([*]{2})");
+		Pattern patternBold = Pattern.compile("(?<!\\\\)([*]{2})([^\n]+?)([*]{2})");
 		Matcher matcherBold = patternBold.matcher(message);
 		while (matcherBold.find()) {
 			chunk = matcherBold.group();
@@ -213,12 +223,20 @@ public class ChatServlet extends HttpServlet {
 		}
 
 		// italic html converter *
-		Pattern patternItalic = Pattern.compile("(?<!\\))([*]{1})([^\n]+?)([*]{1})");
+		Pattern patternItalic = Pattern.compile("(?<!\\\\)([*]{1})([^\n]+?)([*]{1})");
 		Matcher matcherItalic = patternItalic.matcher(message);
 		while (matcherItalic.find()) {
 			chunk = matcherItalic.group();
 			message = message.replace(chunk, markDownItalicToHTML(chunk));
 		}
+		
+		// escape character html converter
+        Pattern patternEscape = Pattern.compile("(\\\\\\*)");
+	    Matcher matcherEscape = patternEscape.matcher(message);
+        while (matcherEscape.find()){
+        	chunk = matcherEscape.group();
+        	message = message.replace(chunk, "*");
+        }
 		return message;
 	}
 }

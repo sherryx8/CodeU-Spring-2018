@@ -211,14 +211,14 @@ public class ChatServletTest {
         .thenReturn(fakeConversation);
 
     Mockito.when(mockRequest.getParameter("message"))
-        .thenReturn("This sentence ***tests*** that **bold**and*italics* work correctly.");
+        .thenReturn("This sentence ***tests*** that **bold**and*italics* work \\**correctly**.");
 
     chatServlet.doPost(mockRequest, mockResponse);
 
     ArgumentCaptor<Message> messageArgumentCaptor = ArgumentCaptor.forClass(Message.class);
     Mockito.verify(mockMessageStore).addMessage(messageArgumentCaptor.capture());
     Assert.assertEquals(
-        "This sentence <b><i>tests</i></b> that <b>bold</b>and<i>italics</i> work correctly."
+        "This sentence <b><i>tests</i></b> that <b>bold</b>and<i>italics</i> work *<i>correctly</i>*."
         , messageArgumentCaptor.getValue().getContent());
 
     Mockito.verify(mockResponse).sendRedirect("/chat/test_conversation");
