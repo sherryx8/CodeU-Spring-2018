@@ -254,7 +254,7 @@ public class ChatServlet extends HttpServlet {
       message = message.replace(chunk, markDownItalicToHTML(chunk));
     }
 
-    // escape character html converter
+    // escape character html converter \*
     Pattern patternEscape = Pattern.compile("(\\\\\\*)");
     Matcher matcherEscape = patternEscape.matcher(message);
     while (matcherEscape.find()) {
