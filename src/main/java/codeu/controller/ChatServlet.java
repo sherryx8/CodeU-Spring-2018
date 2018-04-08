@@ -204,7 +204,7 @@ public class ChatServlet extends HttpServlet {
   public String bbCodeColorToHTML(String markdownChunk) {
     String content = markdownChunk.substring(BBCODE_COLOR_BEGIN_IDENTIFIER_LENGTH,
         markdownChunk.length() - BBCODE_COLOR_END_IDENTIFIER_LENGTH);
-    String[] colorContent = content.split("\\]");
+    String[] colorContent = content.split("\\]", 2);
     String color = colorContent[0];
     content = colorContent[1];
     return String.format("<font color=\"%s\">%s</font>", color, content);
@@ -217,14 +217,15 @@ public class ChatServlet extends HttpServlet {
   public String bbCodeSizeToHTML(String markdownChunk) {
     String content = markdownChunk.substring(BBCODE_SIZE_BEGIN_IDENTIFIER_LENGTH,
         markdownChunk.length() - BBCODE_SIZE_END_IDENTIFIER_LENGTH);
-    String[] sizeContent = content.split("\\]");
+    String[] sizeContent = content.split("\\]", 2);
     String size = sizeContent[0];
     content = sizeContent[1];
     return String.format("<font size=\"%s\">%s</font>", size, content);
   }
 
   /**
-   * this function replaces *, **, and *** identifiers with the appropriate HTML
+   * this function replaces *, **, ***, [color="<COLOR>] ... [/color], and [size="<SIZE>"] ... [/size]
+   * identifiers with the appropriate HTML
    * tag
    */
   public String markDownToHTML(String message) {
@@ -262,7 +263,7 @@ public class ChatServlet extends HttpServlet {
     }
 
     // color html converter
-    Pattern patternColor = Pattern.compile("(?<!\\\\)(\\[color=\\w+\\])([^\\n]+?)(\\[\\/color\\])");
+    Pattern patternColor = Pattern.compile("(?<!\\\\)(\\[color=\\w+\\])([^\\n]+?)(?<!\\\\)(\\[\\/color\\])");
     Matcher matcherColor = patternColor.matcher(message);
     while (matcherColor.find()) {
       chunk = matcherColor.group();
@@ -270,7 +271,7 @@ public class ChatServlet extends HttpServlet {
     }
 
     // size html converter
-    Pattern patternSize = Pattern.compile("(?<!\\\\)(\\[size=\\w+\\])([^\\n]+?)(\\[\\/size\\])");
+    Pattern patternSize = Pattern.compile("(?<!\\\\)(\\[size=\\w+\\])([^\\n]+?)(?<!\\\\)(\\[\\/size\\])");
     Matcher matcherSize = patternSize.matcher(message);
     while (matcherSize.find()) {
       chunk = matcherSize.group();
