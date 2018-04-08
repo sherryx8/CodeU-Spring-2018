@@ -65,8 +65,10 @@ public class PersistentDataStore {
         UUID uuid = UUID.fromString((String) entity.getProperty("uuid"));
         String userName = (String) entity.getProperty("username");
         Instant creationTime = Instant.parse((String) entity.getProperty("creation_time"));
+        
  	//TODO: get Password from Datastore; Currently null (Thar Min Htet)
-        User user = new User(uuid, userName, null, creationTime); 
+    //TODO: get About Me from Datastore; Currently null (Tishauna Wilson)
+        User user = new User(uuid, userName, null, creationTime, null); 
         users.add(user);
       } catch (Exception e) {
         // In a production environment, errors should be very rare. Errors which may
@@ -75,7 +77,6 @@ public class PersistentDataStore {
         throw new PersistentDataStoreException(e);
       }
     }
-
     return users;
   }
 

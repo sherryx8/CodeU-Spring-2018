@@ -1,11 +1,14 @@
 package codeu.controller;
 import java.io.IOException;
+import java.util.UUID;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import org.mockito.Mockito;
+
+import com.google.appengine.repackaged.org.joda.time.Instant;
+
 import codeu.model.data.User;
 import codeu.model.store.basic.UserStore;
 
@@ -25,7 +28,8 @@ public class RegisterServlet extends HttpServlet {
 
     String username = request.getParameter("username");
     String password = request.getParameter("password");
-
+    String About_Me_Text = request.getParameter("about me");
+    
     //Basic Error Handling
     if (!username.matches("[\\w*\\s*]*")) {
       request.setAttribute("error", "Please enter only letters, numbers, and spaces.");
@@ -39,9 +43,8 @@ public class RegisterServlet extends HttpServlet {
       request.getRequestDispatcher("/WEB-INF/view/register.jsp").forward(request, response);
       return;
     }
-
-    User user = new User(UUID.randomUUID(), username, password, Instant.now());
-    userStore.addUser(user);
+    
+  User user = new User(UUID.randomUUID(), username, password, Instant.now(), About_Me_Text);
 
     response.sendRedirect("/login");
   } //doPost
