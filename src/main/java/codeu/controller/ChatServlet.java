@@ -85,7 +85,7 @@ public class ChatServlet extends HttpServlet {
    * It then forwards to chat.jsp for rendering.
    */
   @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response) 
+  public void doGet(HttpServletRequest request, HttpServletResponse response)
       throws IOException, ServletException {
     String requestUrl = request.getRequestURI();
     String conversationTitle = requestUrl.substring("/chat/".length());
@@ -114,7 +114,7 @@ public class ChatServlet extends HttpServlet {
    * redirects back to the chat page.
    */
   @Override
-  public void doPost(HttpServletRequest request, HttpServletResponse response) 
+  public void doPost(HttpServletRequest request, HttpServletResponse response)
       throws IOException, ServletException {
 
     String username = (String) request.getSession().getAttribute("user");
@@ -153,7 +153,7 @@ public class ChatServlet extends HttpServlet {
             conversation.getId(),
             user.getId(),
             htmlTagMessageContent,
-        Instant.now());
+            Instant.now());
 
     messageStore.addMessage(message);
 
