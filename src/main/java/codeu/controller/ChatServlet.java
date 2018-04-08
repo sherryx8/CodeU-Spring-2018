@@ -56,37 +56,40 @@ public class ChatServlet extends HttpServlet {
   }
 
   /**
-   * Sets the ConversationStore used by this servlet. This function provides a common setup method
-   * for use by the test framework or the servlet's init() function.
+   * Sets the ConversationStore used by this servlet. This function provides a
+   * common setup method for use by the test framework or the servlet's init()
+   * function.
    */
   void setConversationStore(ConversationStore conversationStore) {
     this.conversationStore = conversationStore;
   }
 
   /**
-   * Sets the MessageStore used by this servlet. This function provides a common setup method for
-   * use by the test framework or the servlet's init() function.
+   * Sets the MessageStore used by this servlet. This function provides a common
+   * setup method for use by the test framework or the servlet's init()
+   * function.
    */
   void setMessageStore(MessageStore messageStore) {
     this.messageStore = messageStore;
   }
 
   /**
-   * Sets the UserStore used by this servlet. This function provides a common setup method for use
-   * by the test framework or the servlet's init() function.
+   * Sets the UserStore used by this servlet. This function provides a common
+   * setup method for use by the test framework or the servlet's init()
+   * function.
    */
   void setUserStore(UserStore userStore) {
     this.userStore = userStore;
   }
 
   /**
-   * This function fires when a user navigates to the chat page. It gets the conversation title from
-   * the URL, finds the corresponding Conversation, and fetches the messages in that Conversation.
-   * It then forwards to chat.jsp for rendering.
+   * This function fires when a user navigates to the chat page. It gets the
+   * conversation title from the URL, finds the corresponding Conversation, and
+   * fetches the messages in that Conversation. It then forwards to chat.jsp for
+   * rendering.
    */
   @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response)
-      throws IOException, ServletException {
+  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
     String requestUrl = request.getRequestURI();
     String conversationTitle = requestUrl.substring("/chat/".length());
 
@@ -108,14 +111,14 @@ public class ChatServlet extends HttpServlet {
   }
 
   /**
-   * This function fires when a user submits the form on the chat page. It gets the logged-in
-   * username from the session, the conversation title from the URL, and the chat message from the
-   * submitted form data. It creates a new Message from that data, adds it to the model, and then
-   * redirects back to the chat page.
+   * This function fires when a user submits the form on the chat page. It gets
+   * the logged-in username from the session, the conversation title from the
+   * URL, and the chat message from the submitted form data. It creates a new
+   * Message from that data, adds it to the model, and then redirects back to
+   * the chat page.
    */
   @Override
-  public void doPost(HttpServletRequest request, HttpServletResponse response)
-      throws IOException, ServletException {
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
     String username = (String) request.getSession().getAttribute("user");
     if (username == null) {
@@ -147,13 +150,8 @@ public class ChatServlet extends HttpServlet {
     String cleanedMessageContent = Jsoup.clean(messageContent, Whitelist.none());
 
     String boldItalicsMessageContent = markDownToHTML(cleanedMessageContent);
-    Message message = 
-        new Message(
-            UUID.randomUUID(),
-            conversation.getId(),
-            user.getId(),
-            boldItalicsMessageContent,
-            Instant.now());
+    Message message = new Message(UUID.randomUUID(), conversation.getId(), user.getId(), boldItalicsMessageContent,
+        Instant.now());
 
     messageStore.addMessage(message);
 
@@ -166,6 +164,10 @@ public class ChatServlet extends HttpServlet {
   private final int MARKDOWN_BOLD_IDENTIFIER_LENGTH = "**".length();
   private final int MARKDOWN_ITALIC_IDENTIFIER_LENGTH = "*".length();
   private final int MARKDOWN_ESCAPE_IDENTIFIER_LENGTH = "\\*".length();
+  private final int BBCODE_COLOR_BEGIN_IDENTIFIER_LENGTH = "\\[color=".length() - 1;
+  private final int BBCODE_COLOR_END_IDENTIFIER_LENGTH = "\\[/color\\]".length() - 2;
+  private final int BBCODE_SIZE_BEGIN_IDENTIFIER_LENGTH = "\\[size=".length() - 1;
+  private final int BBCODE_SIZE_END_IDENTIFIER_LENGTH = "\\[/size\\]".length() - 2;
 
   /**
    * this function replaces a word surrounded by ** with a bold HTML tag
@@ -196,12 +198,29 @@ public class ChatServlet extends HttpServlet {
   }
 
   /**
-   * this function replaces \* with *
+   * this function replaces words surrounded with [color="<COLOR>"] ... [/color]
+   * with a color HTML tag
    */
-  public String markDownEscapeToHTML(String markdownChunk) {
-    String content = markdownChunk.substring(MARKDOWN_ESCAPE_IDENTIFIER_LENGTH,
-        markdownChunk.length() - MARKDOWN_ESCAPE_IDENTIFIER_LENGTH);
-    return String.format("%s", content);
+  public String bbCodeColorToHTML(String markdownChunk) {
+    String content = markdownChunk.substring(BBCODE_COLOR_BEGIN_IDENTIFIER_LENGTH,
+        markdownChunk.length() - BBCODE_COLOR_END_IDENTIFIER_LENGTH);
+    String[] colorContent = content.split("\\]");
+    String color = colorContent[0];
+    content = colorContent[1];
+    return String.format("<font color=\"%s\">%s</font>", color, content);
+  }
+
+  /**
+   * this function replaces words surrounded with [size="<SIZE>"] ... [/size]
+   * with a font size HTML tag
+   */
+  public String bbCodeSizeToHTML(String markdownChunk) {
+    String content = markdownChunk.substring(BBCODE_SIZE_BEGIN_IDENTIFIER_LENGTH,
+        markdownChunk.length() - BBCODE_SIZE_END_IDENTIFIER_LENGTH);
+    String[] sizeContent = content.split("\\]");
+    String size = sizeContent[0];
+    content = sizeContent[1];
+    return String.format("<font size=\"%s\">%s</font>", size, content);
   }
 
   /**
@@ -240,6 +259,31 @@ public class ChatServlet extends HttpServlet {
     while (matcherEscape.find()) {
       chunk = matcherEscape.group();
       message = message.replace(chunk, "*");
+    }
+
+    // color html converter
+    Pattern patternColor = Pattern.compile("(?<!\\\\)(\\[color=\\w+\\])([^\\n]+?)(\\[\\/color\\])");
+    Matcher matcherColor = patternColor.matcher(message);
+    while (matcherColor.find()) {
+      chunk = matcherColor.group();
+      message = message.replace(chunk, bbCodeColorToHTML(chunk));
+    }
+
+    // size html converter
+    Pattern patternSize = Pattern.compile("(?<!\\\\)(\\[size=\\w+\\])([^\\n]+?)(\\[\\/size\\])");
+    Matcher matcherSize = patternSize.matcher(message);
+    while (matcherSize.find()) {
+      chunk = matcherSize.group();
+      message = message.replace(chunk, bbCodeSizeToHTML(chunk));
+    }
+
+    // escape character html converter \[
+    Pattern patternEscapeBracket = Pattern.compile("\\\\\\[");
+    Matcher matcherEscapeBracket = patternEscapeBracket.matcher(message);
+    while (matcherEscapeBracket.find()) {
+      chunk = matcherEscapeBracket.group();
+      System.out.println("The chunk is: " + chunk);
+      message = message.replace(chunk, "[");
     }
     return message;
   }
