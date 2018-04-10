@@ -84,18 +84,18 @@ public class ChatServlet extends HttpServlet {
     // URL regex
     String patternString = "(http://www\\.|https://www\\.|http://|https://)+[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(/.*)?";
     Pattern pattern = Pattern.compile(patternString);
-    Matcher m = pattern.matcher(messageContent);
+    Matcher matcher = pattern.matcher(messageContent);
     // Used to rebuild messageContent
-    StringBuffer sb = new StringBuffer(messageContent.length());
+    StringBuffer stringBuff = new StringBuffer(messageContent.length());
 
     // Convert each url found into an HTML link
-    while(m.find()){
-      String url = m.group();
-      m.appendReplacement(sb, "<a href = " + url + ">" + url + "</a>");
+    while(matcher.find()){
+      String url = matcher.group();
+      matcher.appendReplacement(stringBuff, "<a href = " + url + ">" + url + "</a>");
     } 
-    m.appendTail(sb);
+    matcher.appendTail(stringBuff);
 
-    return sb.toString();
+    return stringBuff.toString();
   }
 
   /**
