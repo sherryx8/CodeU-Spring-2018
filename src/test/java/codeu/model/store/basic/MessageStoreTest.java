@@ -18,6 +18,7 @@ public class MessageStoreTest {
   private PersistentStorageAgent mockPersistentStorageAgent;
 
   private final UUID CONVERSATION_ID_ONE = UUID.randomUUID();
+  private final UUID USER_ID_ONE = UUID.randomUUID();
   private final Message MESSAGE_ONE =
       new Message(
           UUID.randomUUID(),
@@ -36,9 +37,16 @@ public class MessageStoreTest {
       new Message(
           UUID.randomUUID(),
           UUID.randomUUID(),
-          UUID.randomUUID(),
+          USER_ID_ONE,
           "message three",
           Instant.ofEpochMilli(3000));
+  private final Message MESSAGE_FOUR =
+      new Message(
+          UUID.randomUUID(),
+          UUID.randomUUID(),
+          USER_ID_ONE,
+          "message four",
+          Instant.ofEpochMilli(4000));
 
   @Before
   public void setup() {
@@ -49,6 +57,7 @@ public class MessageStoreTest {
     messageList.add(MESSAGE_ONE);
     messageList.add(MESSAGE_TWO);
     messageList.add(MESSAGE_THREE);
+    messageList.add(MESSAGE_FOUR);
     messageStore.setMessages(messageList);
   }
 
@@ -77,6 +86,15 @@ public class MessageStoreTest {
 
     assertEquals(inputMessage, resultMessage);
     Mockito.verify(mockPersistentStorageAgent).writeThrough(inputMessage);
+  }
+
+  @Test
+  public void testGetMessageForUser() {
+    List<Message> userMessages = messageStore.getMessagesForUser(USER_ID_ONE);
+
+    Assert.assertEquals(2, userMessages.size());
+    Assert.assertTrue(userMessages.contains(MESSAGE_THREE));
+    Assert.assertTrue(userMessages.contains(MESSAGE_FOUR));
   }
 
   private void assertEquals(Message expectedMessage, Message actualMessage) {
