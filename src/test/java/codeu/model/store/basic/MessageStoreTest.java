@@ -91,7 +91,7 @@ public class MessageStoreTest {
   @Test
   public void testGetMessageForUser() {
     List<Message> userMessages = messageStore.getMessagesForUser(USER_ID_ONE);
-
+    // Check that all messages for USER_ID_ONE are extracted. 
     Assert.assertEquals(2, userMessages.size());
     Assert.assertTrue(userMessages.contains(MESSAGE_THREE));
     Assert.assertTrue(userMessages.contains(MESSAGE_FOUR));
