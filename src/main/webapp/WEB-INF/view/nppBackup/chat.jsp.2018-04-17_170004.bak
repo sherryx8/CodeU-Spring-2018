@@ -83,7 +83,7 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 
     <% if (request.getSession().getAttribute("user") != null) { %>
     <form action="/chat/<%= conversation.getTitle() %>" method="POST">
-        <input type="text" name="message" size="35">
+        <input type="text" name="message">
         <br/>
         <button type="submit">Send</button>
     </form>
@@ -92,15 +92,6 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
     <% } %>
 
     <hr/>
-	
-	<font color=blue><b>Text styling legend:</b><br/></font>
-	<li>**bold** -> <b>bold</b></li>
-	<li>*italic* -> <i>italic</i></li>
-	<li>***bold-italic*** -> <b><i>bold-italic</i></b></li>
-	<li>\* -> *</li>
-	<li>[color=red]red[/color] -> <font color=red>red</font></li>
-	<li>[size=24]font size[/size] -> <font size=24>font size</font>
-	<li>\[ -> [</li>
 
   </div>
 

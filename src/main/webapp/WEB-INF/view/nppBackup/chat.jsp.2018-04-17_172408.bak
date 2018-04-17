@@ -93,7 +93,7 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 
     <hr/>
 	
-	<font color=blue><b>Text styling legend:</b><br/></font>
+	<b>Text styling legend:</b><br/>
 	<li>**bold** -> <b>bold</b></li>
 	<li>*italic* -> <i>italic</i></li>
 	<li>***bold-italic*** -> <b><i>bold-italic</i></b></li>
