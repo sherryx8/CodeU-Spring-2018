@@ -78,7 +78,7 @@ public class ChatServlet extends HttpServlet {
   }
 
   /**
-   * This function formats any URL's within a message into HTML links.
+   * Formats any URL's within a message into HTML links.
    */
   String formatURL(String messageContent){
     // URL regex
@@ -99,7 +99,7 @@ public class ChatServlet extends HttpServlet {
   }
 
   /**
-   * This function fires when a user navigates to the chat page. It gets the conversation title from
+   * Fires when a user navigates to the chat page. It gets the conversation title from
    * the URL, finds the corresponding Conversation, and fetches the messages in that Conversation.
    * It then forwards to chat.jsp for rendering.
    */
@@ -127,7 +127,7 @@ public class ChatServlet extends HttpServlet {
   }
 
   /**
-   * This function fires when a user submits the form on the chat page. It gets the logged-in
+   * Fires when a user submits the form on the chat page. It gets the logged-in
    * username from the session, the conversation title from the URL, and the chat message from the
    * submitted form data. It creates a new Message from that data, adds it to the model, and then
    * redirects back to the chat page.
@@ -166,8 +166,10 @@ public class ChatServlet extends HttpServlet {
     String cleanedMessageContent = Jsoup.clean(messageContent, Whitelist.none());
     // this formats any URLs in the message content
     String formattedMessageContent = formatURL(cleanedMessageContent);
-
+    
+    // finds all special identifiers and converts them to their respective html tags
     String htmlTagMessageContent = markDownToHTML(formattedMessageContent);
+    
     Message message = 
         new Message(
             UUID.randomUUID(),
@@ -192,7 +194,7 @@ public class ChatServlet extends HttpServlet {
   private final int BBCODE_SIZE_END_IDENTIFIER_LENGTH = "\\[/size\\]".length() - 2;
 
   /**
-   * this function replaces a word surrounded by ** with a bold HTML tag
+   * Replaces a word surrounded by ** with a bold HTML tag.
    */
   public String markDownBoldToHTML(String markdownChunk) {
     String content = markdownChunk.substring(MARKDOWN_BOLD_IDENTIFIER_LENGTH,
@@ -201,7 +203,7 @@ public class ChatServlet extends HttpServlet {
   }
 
   /**
-   * this function replaces a word surrounded by * with an italics HTML tag
+   * Replaces a word surrounded by * with an italics HTML tag.
    */
   public String markDownItalicToHTML(String markdownChunk) {
     String content = markdownChunk.substring(MARKDOWN_ITALIC_IDENTIFIER_LENGTH,
@@ -210,8 +212,7 @@ public class ChatServlet extends HttpServlet {
   }
 
   /**
-   * this function replaces a word surrounded by *** with a bold-italics HTML
-   * tag
+   * Replaces a word surrounded by *** with a bold-italics HTML tag.
    */
   public String markDownBoldItalicToHTML(String markdownChunk) {
     String content = markdownChunk.substring(MARKDOWN_BOLDITALIC_IDENTIFIER_LENGTH,
@@ -220,8 +221,7 @@ public class ChatServlet extends HttpServlet {
   }
 
   /**
-   * this function replaces words surrounded with [color="<COLOR>"] ... [/color]
-   * with a color HTML tag
+   * Replaces words surrounded with [color="<COLOR>"] ... [/color] with a color HTML tag.
    */
   public String bbCodeColorToHTML(String markdownChunk) {
     String content = markdownChunk.substring(BBCODE_COLOR_BEGIN_IDENTIFIER_LENGTH,
@@ -233,8 +233,7 @@ public class ChatServlet extends HttpServlet {
   }
 
   /**
-   * this function replaces words surrounded with [size="<SIZE>"] ... [/size]
-   * with a font size HTML tag
+   * Replaces words surrounded with [size="<SIZE>"] ... [/size] with a font size HTML tag.
    */
   public String bbCodeSizeToHTML(String markdownChunk) {
     String content = markdownChunk.substring(BBCODE_SIZE_BEGIN_IDENTIFIER_LENGTH,
@@ -246,9 +245,8 @@ public class ChatServlet extends HttpServlet {
   }
 
   /**
-   * this function replaces *, **, ***, [color="<COLOR>] ... [/color], and [size="<SIZE>"] ... [/size]
-   * identifiers with the appropriate HTML
-   * tag
+   * Replaces *, **, ***, [color="<COLOR>] ... [/color], and [size="<SIZE>"] ... [/size]
+   * identifiers with the appropriate HTML tag.
    */
   public String markDownToHTML(String message) {
     // bold-italic html converter ***
@@ -305,7 +303,6 @@ public class ChatServlet extends HttpServlet {
     Matcher matcherEscapeBracket = patternEscapeBracket.matcher(message);
     while (matcherEscapeBracket.find()) {
       chunk = matcherEscapeBracket.group();
-      System.out.println("The chunk is: " + chunk);
       message = message.replace(chunk, "[");
     }
     return message;
