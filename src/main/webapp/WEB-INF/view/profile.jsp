@@ -35,7 +35,7 @@
 
 	<div id="container">
 
-		<h1>Ada's Profile Pages</h1>
+		<h1>Ada's Profile Page</h1>
 		<hr/>
 
 		<h2>About Ada</h2>
