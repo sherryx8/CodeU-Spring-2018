@@ -1,14 +1,10 @@
 <%@ page import="java.util.List" %>
-<%@ page import="java.util.UUID" %>
 <%@ page import="java.time.Instant" %>
 <%@ page import="codeu.model.data.User" %>
-<%@ page import="codeu.model.store.basic.MessageStore" %>
+<%@ page import="codeu.model.data.Message" %>
 <%
-User user = (User) request.getAttribute("user");
-// MessageStore messageStore = (MessageStore) request.getAttribute("messageStore");
-String userName = user.getName();
-UUID userID = user.getId();
-List<Message> userMessages = MessageStore.getMessagesForUser(userID);
+String userName = (String) request.getAttribute("username");
+List<Message> userMessages = (List<Message>) request.getAttribute("messages");
 %>
 
 <!DOCTYPE html>
@@ -48,7 +44,7 @@ List<Message> userMessages = MessageStore.getMessagesForUser(userID);
 
 	<div id="container">
 
-		<h1><%= userName %> 's Profile Page</h1>
+		<h1><%= userName %>'s Profile Page</h1>
 		<hr/>
 
 		<h2>About <%= userName %></h2>
@@ -69,7 +65,7 @@ List<Message> userMessages = MessageStore.getMessagesForUser(userID);
 		<div id="chat">
 			<ul>
 		<%
-			for (Message message: messages) {
+			for (Message message: userMessages) {
 				Instant creationTime = message.getCreationTime();
 				String content = message.getContent();
 		%>
