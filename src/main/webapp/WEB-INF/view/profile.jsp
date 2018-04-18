@@ -1,7 +1,20 @@
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.UUID" %>
+<%@ page import="java.time.Instant" %>
+<%@ page import="codeu.model.data.User" %>
+<%@ page import="codeu.model.store.basic.MessageStore" %>
+<%
+User user = (User) request.getAttribute("user");
+// MessageStore messageStore = (MessageStore) request.getAttribute("messageStore");
+String userName = user.getName();
+UUID userID = user.getId();
+List<Message> userMessages = MessageStore.getMessagesForUser(userID);
+%>
+
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Profile Pages</title>
+	<title>Profile Page</title>
 	<link rel="stylesheet" href="/css/main.css" type"text/css">
 
 	<style>
@@ -35,13 +48,15 @@
 
 	<div id="container">
 
-		<h1>Ada's Profile Page</h1>
+		<h1><%= userName %> 's Profile Page</h1>
 		<hr/>
 
-		<h2>About Ada</h2>
+		<h2>About <%= userName %></h2>
+		<%-- TODO: add about me after merging new updated Register Servlet. Thar --%>
 		<p>Update your about me</p>
 		<br/>
 
+		<%-- TODO: make it visible and editable only to the owner. Thar --%>
 		<h3>Edit your About Me (only you can see this)</h3>
 		<form>
 			<textarea rows="4" cols="115"> </textarea>
@@ -50,13 +65,18 @@
 		</form>
 		<hr/>
 
-		<h2>Ada's Sent Messages</h2>
+		<h2><%= userName %>'s Sent Messages</h2>
 		<div id="chat">
 			<ul>
-				<li>Hello</li>
-				<li>Hello</li>
-				<li>Hello</li>
-				<li>Hello</li>
+		<%
+			for (Message message: messages) {
+				Instant creationTime = message.getCreationTime();
+				String content = message.getContent();
+		%>
+			<li><strong><%= creationTime %>:</strong> <%= content %></li>
+		<%
+			}
+		%>
 			</ul>
 		</div>
 		<hr/>
