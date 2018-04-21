@@ -1,14 +1,11 @@
 package codeu.controller;
 import java.io.IOException;
 import java.util.UUID;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import com.google.appengine.repackaged.org.joda.time.Instant;
-
 import codeu.model.data.User;
 import codeu.model.store.basic.UserStore;
 
@@ -42,10 +39,9 @@ public class RegisterServlet extends HttpServlet {
       request.setAttribute("error", "That username is already taken.");
       request.getRequestDispatcher("/WEB-INF/view/register.jsp").forward(request, response);
       return;
-    }
+    }//if
     
-  User user = new User(UUID.randomUUID(), username, password, Instant.now(), About_Me_Text);
-
+    User user = new User(UUID.randomUUID(), username, password, Instant.now(), About_Me_Text);
     response.sendRedirect("/login");
   } //doPost
 
