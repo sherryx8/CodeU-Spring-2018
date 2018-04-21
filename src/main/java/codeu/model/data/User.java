@@ -63,7 +63,7 @@ public class User {
   }//getCreationTime
   
   /** Returns the About Me text of this User. */
-  public String getAboutMe() {
+  public String getAboutMeText() {
 	  return About_Me_Text; 
   }//getAboutMe
 }//User
