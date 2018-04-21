@@ -13,7 +13,6 @@
 // limitations under the License.
 
 package codeu.model.store.persistence;
-
 import codeu.model.data.Conversation;
 import codeu.model.data.Message;
 import codeu.model.data.User;
