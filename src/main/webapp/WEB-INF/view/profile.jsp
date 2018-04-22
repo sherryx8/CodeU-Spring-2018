@@ -1,10 +1,13 @@
 <%@ page import="java.util.List" %>
 <%@ page import="java.time.Instant" %>
+<%@ page import="java.util.Date" %>
+<%@ page import="java.util.Collections" %>
 <%@ page import="codeu.model.data.User" %>
 <%@ page import="codeu.model.data.Message" %>
 <%
 String userName = (String) request.getAttribute("username");
 List<Message> userMessages = (List<Message>) request.getAttribute("messages");
+Collections.reverse(userMessages);
 %>
 
 <!DOCTYPE html>
@@ -67,9 +70,10 @@ List<Message> userMessages = (List<Message>) request.getAttribute("messages");
 		<%
 			for (Message message: userMessages) {
 				Instant creationTime = message.getCreationTime();
+				Date creationDate = Date.from(creationTime);
 				String content = message.getContent();
 		%>
-			<li><strong><%= creationTime %>:</strong> <%= content %></li>
+			<li><strong><%= creationDate %>:</strong> <%= content %></li>
 		<%
 			}
 		%>
