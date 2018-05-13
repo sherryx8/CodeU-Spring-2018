@@ -25,6 +25,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.ArrayList;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -75,8 +76,10 @@ public class ChatServletTest {
     Mockito.when(mockRequest.getRequestURI()).thenReturn("/chat/test_conversation");
 
     UUID fakeConversationId = UUID.randomUUID();
+    ArrayList<String> participants = new ArrayList<String>();
+    participants.add("Test_Participant_1");
     Conversation fakeConversation =
-        new Conversation(fakeConversationId, UUID.randomUUID(), "test_conversation", Instant.now());
+        new Conversation(fakeConversationId, UUID.randomUUID(), "test_conversation", Instant.now(), participants);
     Mockito.when(mockConversationStore.getConversationWithTitle("test_conversation"))
         .thenReturn(fakeConversation);
 
@@ -155,8 +158,11 @@ public class ChatServletTest {
     User fakeUser = new User(UUID.randomUUID(), "test_username", "password", Instant.now());
     Mockito.when(mockUserStore.getUser("test_username")).thenReturn(fakeUser);
 
+    ArrayList<String> participants = new ArrayList<String>();
+    participants.add("Test_Participant_1");
+
     Conversation fakeConversation =
-        new Conversation(UUID.randomUUID(), UUID.randomUUID(), "test_conversation", Instant.now());
+        new Conversation(UUID.randomUUID(), UUID.randomUUID(), "test_conversation", Instant.now(), participants);
     Mockito.when(mockConversationStore.getConversationWithTitle("test_conversation"))
         .thenReturn(fakeConversation);
 
@@ -178,9 +184,11 @@ public class ChatServletTest {
 
     User fakeUser = new User(UUID.randomUUID(), "test_username", "password", Instant.now());
     Mockito.when(mockUserStore.getUser("test_username")).thenReturn(fakeUser);
+    ArrayList<String> participants = new ArrayList<String>();
+    participants.add("Test_Participant_1");
 
     Conversation fakeConversation =
-        new Conversation(UUID.randomUUID(), UUID.randomUUID(), "test_conversation", Instant.now());
+        new Conversation(UUID.randomUUID(), UUID.randomUUID(), "test_conversation", Instant.now(), participants);
     Mockito.when(mockConversationStore.getConversationWithTitle("test_conversation"))
         .thenReturn(fakeConversation);
 
@@ -196,7 +204,7 @@ public class ChatServletTest {
 
     Mockito.verify(mockResponse).sendRedirect("/chat/test_conversation");
   }
-  
+
   @Test
   public void testDoPost_ModifyMessageBoldItalics() throws IOException, ServletException{
     Mockito.when(mockRequest.getRequestURI()).thenReturn("/chat/test_conversation");
@@ -204,9 +212,11 @@ public class ChatServletTest {
 
     User fakeUser = new User(UUID.randomUUID(), "test_username", "password", Instant.now());
     Mockito.when(mockUserStore.getUser("test_username")).thenReturn(fakeUser);
+    ArrayList<String> participants = new ArrayList<String>();
+    participants.add("Test_Participant_1");
 
     Conversation fakeConversation =
-        new Conversation(UUID.randomUUID(), UUID.randomUUID(), "test_conversation", Instant.now());
+        new Conversation(UUID.randomUUID(), UUID.randomUUID(), "test_conversation", Instant.now(), participants);
     Mockito.when(mockConversationStore.getConversationWithTitle("test_conversation"))
         .thenReturn(fakeConversation);
 
@@ -223,7 +233,7 @@ public class ChatServletTest {
 
     Mockito.verify(mockResponse).sendRedirect("/chat/test_conversation");
   }
-  
+
   @Test
   public void testDoPost_ModifyMessageColorSize() throws IOException, ServletException{
     Mockito.when(mockRequest.getRequestURI()).thenReturn("/chat/test_conversation");
@@ -231,9 +241,11 @@ public class ChatServletTest {
 
     User fakeUser = new User(UUID.randomUUID(), "test_username", "password", Instant.now());
     Mockito.when(mockUserStore.getUser("test_username")).thenReturn(fakeUser);
+    ArrayList<String> participants = new ArrayList<String>();
+    participants.add("Test_Participant_1");
 
     Conversation fakeConversation =
-        new Conversation(UUID.randomUUID(), UUID.randomUUID(), "test_conversation", Instant.now());
+        new Conversation(UUID.randomUUID(), UUID.randomUUID(), "test_conversation", Instant.now(), participants);
     Mockito.when(mockConversationStore.getConversationWithTitle("test_conversation"))
         .thenReturn(fakeConversation);
 
@@ -245,7 +257,7 @@ public class ChatServletTest {
     Mockito.verify(mockMessageStore).addMessage(messageArgumentCaptor.capture());
     Assert.assertEquals("<font size=\"4\">glue</font> <font color=\"green\">[color=blue]this is blue[/color]</font>", messageArgumentCaptor.getValue().getContent());
   }
-  
+
   @Test
   public void testDoPost_MessageWithURL() throws IOException, ServletException{
     Mockito.when(mockRequest.getRequestURI()).thenReturn("/chat/test_conversation");
@@ -253,9 +265,11 @@ public class ChatServletTest {
 
     User fakeUser = new User(UUID.randomUUID(), "test_username", "password", Instant.now());
     Mockito.when(mockUserStore.getUser("test_username")).thenReturn(fakeUser);
+    ArrayList<String> participants = new ArrayList<String>();
+    participants.add("Test_Participant_1");
 
     Conversation fakeConversation =
-        new Conversation(UUID.randomUUID(), UUID.randomUUID(), "test_conversation", Instant.now());
+        new Conversation(UUID.randomUUID(), UUID.randomUUID(), "test_conversation", Instant.now(), participants);
     Mockito.when(mockConversationStore.getConversationWithTitle("test_conversation"))
         .thenReturn(fakeConversation);
 
