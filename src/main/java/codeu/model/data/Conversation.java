@@ -87,4 +87,9 @@ public class Conversation {
   public void addParticipant(String userName) {
     participants.add(userName);
   }
+
+  /** Checks if userName is participant of this conversation. */
+  public boolean checkIfParticipant(String userName){
+      return participants.contains(userName);
+  }
 }

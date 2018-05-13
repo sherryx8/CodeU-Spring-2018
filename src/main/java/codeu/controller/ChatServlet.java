@@ -121,8 +121,7 @@ public class ChatServlet extends HttpServlet {
 
     // check if User has access if conversation is private
     if (conversation.getPrivacyStatus()){
-      ArrayList<String> userList = conversation.getParticipants();
-      if (!userList.contains(username)){
+      if (!conversation.checkIfParticipant(username)){
         // TO DO: create error page if user not allowed access
         System.out.println("Conversation Access Denied" + conversationTitle);
         response.sendRedirect("/conversations");
