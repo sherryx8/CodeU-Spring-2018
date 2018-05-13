@@ -23,6 +23,7 @@ import codeu.model.store.basic.UserStore;
 import java.io.IOException;
 import java.time.Instant;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.UUID;
 import java.util.regex.*;
 import javax.servlet.ServletException;
@@ -108,6 +109,7 @@ public class ChatServlet extends HttpServlet {
       throws IOException, ServletException {
     String requestUrl = request.getRequestURI();
     String conversationTitle = requestUrl.substring("/chat/".length());
+    String username = (String) request.getSession().getAttribute("user");
 
     Conversation conversation = conversationStore.getConversationWithTitle(conversationTitle);
     if (conversation == null) {
@@ -117,6 +119,17 @@ public class ChatServlet extends HttpServlet {
       return;
     }
 
+    // check if User has access if conversation is private
+    if (conversation.getPrivacyStatus()){
+      ArrayList<String> userList = conversation.getParticipants();
+      if (!userList.contains(username)){
+        // TO DO: create error page if user not allowed access
+        System.out.println("Conversation Access Denied" + conversationTitle);
+        response.sendRedirect("/conversations");
+        return;
+      }
+    }
+
     UUID conversationId = conversation.getId();
 
     List<Message> messages = messageStore.getMessagesInConversation(conversationId);
@@ -124,6 +137,7 @@ public class ChatServlet extends HttpServlet {
     request.setAttribute("conversation", conversation);
     request.setAttribute("messages", messages);
     request.getRequestDispatcher("/WEB-INF/view/chat.jsp").forward(request, response);
+    
   }
 
   /**

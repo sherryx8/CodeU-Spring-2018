@@ -86,6 +86,18 @@ public class ConversationStore {
     return conversations;
   }
 
+  // Get all public conversations
+  public List<Conversation> getAllPublicConversations() {
+    List<Conversation> publicConversations = new ArrayList<Conversation>();
+    for (Conversation conversation: conversations){
+      if (!(conversation.getPrivacyStatus())){
+        publicConversations.add(conversation);
+      }
+    }
+    return publicConversations;
+  }
+
+
   /** Add a new conversation to the current set of conversations known to the application. */
   public void addConversation(Conversation conversation) {
     conversations.add(conversation);

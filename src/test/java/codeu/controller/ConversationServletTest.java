@@ -71,7 +71,7 @@ public class ConversationServletTest {
     participants.add("Test_Participant_1");
     fakeConversationList.add(
         new Conversation(UUID.randomUUID(), UUID.randomUUID(), "test_conversation", Instant.now(), participants));
-    Mockito.when(mockConversationStore.getAllConversations()).thenReturn(fakeConversationList);
+    Mockito.when(mockConversationStore.getAllPublicConversations()).thenReturn(fakeConversationList);
 
     conversationServlet.doGet(mockRequest, mockResponse);
 
