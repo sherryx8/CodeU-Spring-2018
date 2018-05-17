@@ -23,7 +23,7 @@ public class User {
   private final UUID id;
   private final String name;
   private final String hashedPassword;
-  private final ArrayList<User> userContactCache;
+  private final ArrayList<User> userContactCache = new ArrayList<User>();
   private final Instant creation;
 
   /**
@@ -34,11 +34,10 @@ public class User {
    * @param password the password of this User
    * @param creation the creation time of this User
    */
-  public User(UUID id, String name, String hashedPassword, ArrayList<User> userContactCache, Instant creation) {
+  public User(UUID id, String name, String hashedPassword, Instant creation) {
     this.id = id;
     this.name = name;
     this.hashedPassword = hashedPassword;
-    this.userContactCache = new ArrayList<User>();
     this.creation = creation;
   }
 
