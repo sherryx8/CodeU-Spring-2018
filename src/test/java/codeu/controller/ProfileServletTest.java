@@ -70,4 +70,9 @@ public class ProfileServletTest {
     Mockito.verify(mockRequest).setAttribute("messages", fakeMessageList);
     Mockito.verify(mockRequestDispatcher).forward(mockRequest, mockResponse);
   }
+
+  @Test
+  public void testDoPost() throws IOException, ServletException{
+
+  }
 }

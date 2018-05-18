@@ -51,10 +51,12 @@ public class ProfileServlet extends HttpServlet {
   {
     String requestUrl = request.getRequestURI();
     String userName = requestUrl.substring("/users/".length());
-    //TODO: Change to acutal about me, and handle null condition. Thar Min Htet
-    String aboutMe = "This is fake about Me.";
+    String aboutMe = "Nothing to see here.";
 
     User user = userStore.getUser(userName);
+    if (user.getAboutMe() != null){
+      aboutMe = user.getAboutMe();
+    }
     UUID userId = user.getId();
     List<Message> userMessages = messageStore.getMessagesForUser(userId);
 
@@ -64,4 +66,18 @@ public class ProfileServlet extends HttpServlet {
     // TODO: Add About me here. Thar
     request.getRequestDispatcher("/WEB-INF/view/profile.jsp").forward(request, response);
   }
+
+  @Override
+  public void doPost(HttpServletRequest request, HttpServletResponse response)
+    throws IOException, ServletException
+  {
+    String aboutMe = request.getParameter("aboutme");
+    String username = (String) request.getSession().getAttribute("user");
+    User user = userStore.getUser(username);
+    user.setAboutMe(aboutMe);
+
+    response.sendRedirect("/users/" + username);
+    return;
+  }
+
 }
