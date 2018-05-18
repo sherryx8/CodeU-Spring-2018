@@ -51,6 +51,8 @@ public class ProfileServlet extends HttpServlet {
   {
     String requestUrl = request.getRequestURI();
     String userName = requestUrl.substring("/users/".length());
+    //TODO: Change to acutal about me, and handle null condition. Thar Min Htet
+    String aboutMe = "This is fake about Me.";
 
     User user = userStore.getUser(userName);
     UUID userId = user.getId();
@@ -58,6 +60,7 @@ public class ProfileServlet extends HttpServlet {
 
     request.setAttribute("username", userName);
     request.setAttribute("messages", userMessages);
+    request.setAttribute("aboutme", aboutMe);
     // TODO: Add About me here. Thar
     request.getRequestDispatcher("/WEB-INF/view/profile.jsp").forward(request, response);
   }
