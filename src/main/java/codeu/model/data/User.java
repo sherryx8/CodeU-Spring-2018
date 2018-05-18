@@ -23,6 +23,7 @@ public class User {
   private final String name;
   private final String hashedPassword;
   private final Instant creation;
+  private String aboutMe;
 
   /**
    * Constructs a new User.
@@ -53,9 +54,20 @@ public class User {
   public String getPassword() {
     return hashedPassword;
   }
- 
+
   /** Returns the creation time of this User. */
   public Instant getCreationTime() {
     return creation;
+  }
+
+  /** Returns the "about me" of this User. */
+  public String getAboutMe() {
+    return aboutMe;
+  }
+
+  /** Updates the "about me" of this User. */
+  public void setAboutMe(String newAboutMe) {
+    aboutMe = newAboutMe;
+    return;
   }
 }
