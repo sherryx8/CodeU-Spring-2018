@@ -6,6 +6,7 @@
 <%@ page import="codeu.model.data.Message" %>
 <%
 String userName = (String) request.getAttribute("username");
+String aboutMe = (String) request.getAttribute("aboutme");
 List<Message> userMessages = (List<Message>) request.getAttribute("messages");
 Collections.reverse(userMessages);
 %>
@@ -51,17 +52,17 @@ Collections.reverse(userMessages);
 		<hr/>
 
 		<h2>About <%= userName %></h2>
-		<%-- TODO: add about me after merging new updated Register Servlet. Thar --%>
-		<p>Update your about me</p>
+		<p><%= aboutMe %></p>
 		<br/>
-
-		<%-- TODO: make it visible and editable only to the owner. Thar --%>
+		<% String name = request.getSession().getAttribute("user") + ""; %>
+		<% if (name.equals(userName)) { %>
 		<h3>Edit your About Me (only you can see this)</h3>
 		<form>
 			<textarea rows="4" cols="115"> </textarea>
 			<br/>
 			<input type="submit" value="Submit">
 		</form>
+		<% } %>
 		<hr/>
 
 		<h2><%= userName %>'s Sent Messages</h2>
