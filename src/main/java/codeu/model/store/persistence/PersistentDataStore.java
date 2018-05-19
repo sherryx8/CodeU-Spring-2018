@@ -159,6 +159,23 @@ public class PersistentDataStore {
     datastore.put(userEntity);
   }
 
+  /** Updates a User object to the Datastore service. */
+  public void update(String aboutMe, String username){
+
+    Query query = new Query("chat-users");
+    PreparedQuery results = datastore.prepare(query);
+
+    for (Entity entity : results.asIterable()) {
+
+      String userName = (String) entity.getProperty("username");
+      if (userName.equals(username)){
+        Entity updatedUserEntity = entity;
+        updatedUserEntity.setProperty("aboutMe", aboutMe);
+        datastore.put(updatedUserEntity);
+      }
+    }
+  }
+
   /** Write a Message object to the Datastore service. */
   public void writeThrough(Message message) {
     Entity messageEntity = new Entity("chat-messages");

@@ -63,7 +63,6 @@ public class ProfileServlet extends HttpServlet {
     request.setAttribute("username", userName);
     request.setAttribute("messages", userMessages);
     request.setAttribute("aboutme", aboutMe);
-    // TODO: Add About me here. Thar
     request.getRequestDispatcher("/WEB-INF/view/profile.jsp").forward(request, response);
   }
 
@@ -75,6 +74,7 @@ public class ProfileServlet extends HttpServlet {
     String username = (String) request.getSession().getAttribute("user");
     User user = userStore.getUser(username);
     user.setAboutMe(aboutMe);
+    userStore.updateUser(user, username, aboutMe);
 
     response.sendRedirect("/users/" + username);
     return;
