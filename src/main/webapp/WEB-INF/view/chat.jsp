@@ -72,7 +72,7 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
         String author = UserStore.getInstance()
           .getUser(message.getAuthorId()).getName();
     %>
-      <li><strong><%= author %>:</strong> <%= message.getContent() %></li>
+      <li><a href="/users/<%=author%>" style="text-decoration:none"> <strong><%= author %>:</strong> </a> <%= message.getContent() %></li>
     <%
       }
     %>
@@ -92,7 +92,7 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
     <% } %>
 
     <hr/>
-    
+
   <font color=blue><b>Text styling legend:</b><br/></font>
   <li>**bold** -> <b>bold</b></li>
   <li>*italic* -> <i>italic</i></li>
