@@ -96,6 +96,11 @@ public class PersistentStorageAgent {
     persistentDataStore.writeThrough(user);
   }
 
+  /** Update a User according to updated about me. */
+  public void update(String aboutMe, String username) {
+    persistentDataStore.update(aboutMe, username);
+  }
+
   /** Write a Message object to the Datastore service. */
   public void writeThrough(Conversation conversation) {
     persistentDataStore.writeThrough(conversation);

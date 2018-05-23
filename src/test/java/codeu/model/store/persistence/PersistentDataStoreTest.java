@@ -43,13 +43,17 @@ public class PersistentDataStoreTest {
     String nameOne = "test_username_one";
     String passwordOne = "test_password_one";
     Instant creationOne = Instant.ofEpochMilli(1000);
+    String aboutMeOne = "fake_aboutme_one";
     User inputUserOne = new User(idOne, nameOne, passwordOne, creationOne);
+    inputUserOne.setAboutMe(aboutMeOne);
 
     UUID idTwo = UUID.randomUUID();
     String nameTwo = "test_username_two";
     String passwordTwo = "test_password_two";
     Instant creationTwo = Instant.ofEpochMilli(2000);
+    String aboutMeTwo = "fake_aboutme_two";
     User inputUserTwo = new User(idTwo, nameTwo, passwordTwo, creationTwo);
+    inputUserTwo.setAboutMe(aboutMeTwo);
 
     // save
     persistentDataStore.writeThrough(inputUserOne);
@@ -64,12 +68,14 @@ public class PersistentDataStoreTest {
     Assert.assertEquals(nameOne, resultUserOne.getName());
     Assert.assertEquals(passwordOne, resultUserOne.getPassword());
     Assert.assertEquals(creationOne, resultUserOne.getCreationTime());
+    Assert.assertEquals(aboutMeOne, resultUserOne.getAboutMe());
 
     User resultUserTwo = resultUsers.get(1);
     Assert.assertEquals(idTwo, resultUserTwo.getId());
     Assert.assertEquals(nameTwo, resultUserTwo.getName());
     Assert.assertEquals(passwordTwo, resultUserTwo.getPassword());
     Assert.assertEquals(creationTwo, resultUserTwo.getCreationTime());
+    Assert.assertEquals(aboutMeTwo, resultUserTwo.getAboutMe());
   }
 
   @Test
