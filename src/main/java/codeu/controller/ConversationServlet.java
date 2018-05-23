@@ -21,6 +21,7 @@ import codeu.model.store.basic.UserStore;
 import java.io.IOException;
 import java.time.Instant;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.UUID;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -106,6 +107,9 @@ public class ConversationServlet extends HttpServlet {
       return;
     }
 
+    ArrayList<String> participants = new ArrayList<String>();
+    participants.add(username);
+
     if (conversationStore.isTitleTaken(conversationTitle)) {
       // conversation title is already taken, just go into that conversation instead of creating a
       // new one
@@ -114,7 +118,7 @@ public class ConversationServlet extends HttpServlet {
     }
 
     Conversation conversation =
-        new Conversation(UUID.randomUUID(), user.getId(), conversationTitle, Instant.now());
+        new Conversation(UUID.randomUUID(), user.getId(), conversationTitle, Instant.now(), participants);
 
     conversationStore.addConversation(conversation);
     response.sendRedirect("/chat/" + conversationTitle);

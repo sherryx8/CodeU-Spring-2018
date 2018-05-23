@@ -110,8 +110,10 @@ public class DefaultDataStore {
     for (int i = 1; i <= DEFAULT_CONVERSATION_COUNT; i++) {
       User user = getRandomElement(users);
       String title = "Conversation_" + i;
+      ArrayList<String> participants = new ArrayList<String>();
+      participants.add(user.getName());
       Conversation conversation =
-          new Conversation(UUID.randomUUID(), user.getId(), title, Instant.now());
+          new Conversation(UUID.randomUUID(), user.getId(), title, Instant.now(), participants);
       PersistentStorageAgent.getInstance().writeThrough(conversation);
       conversations.add(conversation);
     }

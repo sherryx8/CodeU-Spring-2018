@@ -7,6 +7,7 @@ import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestC
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import java.time.Instant;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.UUID;
 import org.junit.After;
 import org.junit.Assert;
@@ -83,13 +84,17 @@ public class PersistentDataStoreTest {
     UUID ownerOne = UUID.randomUUID();
     String titleOne = "Test_Title";
     Instant creationOne = Instant.ofEpochMilli(1000);
-    Conversation inputConversationOne = new Conversation(idOne, ownerOne, titleOne, creationOne);
+    ArrayList<String> participantsOne = new ArrayList<String>();
+    participantsOne.add("Test_Participant_1");
+    Conversation inputConversationOne = new Conversation(idOne, ownerOne, titleOne, creationOne, participantsOne);
 
     UUID idTwo = UUID.randomUUID();
     UUID ownerTwo = UUID.randomUUID();
     String titleTwo = "Test_Title_Two";
     Instant creationTwo = Instant.ofEpochMilli(2000);
-    Conversation inputConversationTwo = new Conversation(idTwo, ownerTwo, titleTwo, creationTwo);
+    ArrayList<String> participantsTwo = new ArrayList<String>();
+    participantsTwo.add("Test_Participant_2");
+    Conversation inputConversationTwo = new Conversation(idTwo, ownerTwo, titleTwo, creationTwo, participantsTwo);
 
     // save
     persistentDataStore.writeThrough(inputConversationOne);

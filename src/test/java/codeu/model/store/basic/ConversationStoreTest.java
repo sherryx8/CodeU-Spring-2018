@@ -16,9 +16,10 @@ public class ConversationStoreTest {
   private ConversationStore conversationStore;
   private PersistentStorageAgent mockPersistentStorageAgent;
 
+  private ArrayList<String> participants = new ArrayList<String>();
   private final Conversation CONVERSATION_ONE =
       new Conversation(
-          UUID.randomUUID(), UUID.randomUUID(), "conversation_one", Instant.ofEpochMilli(1000));
+          UUID.randomUUID(), UUID.randomUUID(), "conversation_one", Instant.ofEpochMilli(1000), participants);
 
   @Before
   public void setup() {
@@ -61,8 +62,9 @@ public class ConversationStoreTest {
 
   @Test
   public void testAddConversation() {
+    ArrayList<String> participants = new ArrayList<String>();
     Conversation inputConversation =
-        new Conversation(UUID.randomUUID(), UUID.randomUUID(), "test_conversation", Instant.now());
+        new Conversation(UUID.randomUUID(), UUID.randomUUID(), "test_conversation", Instant.now(), participants);
 
     conversationStore.addConversation(inputConversation);
     Conversation resultConversation =

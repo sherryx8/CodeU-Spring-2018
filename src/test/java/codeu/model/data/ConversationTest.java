@@ -18,6 +18,7 @@ import java.time.Instant;
 import java.util.UUID;
 import org.junit.Assert;
 import org.junit.Test;
+import java.util.ArrayList;
 
 public class ConversationTest {
 
@@ -27,12 +28,34 @@ public class ConversationTest {
     UUID owner = UUID.randomUUID();
     String title = "Test_Title";
     Instant creation = Instant.now();
+    ArrayList<String> participants = new ArrayList<String>();
+    participants.add("Test_Participant_1");
+    participants.add("Test_Participant_2");
 
-    Conversation conversation = new Conversation(id, owner, title, creation);
+    Conversation conversation = new Conversation(id, owner, title, creation, participants);
 
     Assert.assertEquals(id, conversation.getId());
     Assert.assertEquals(owner, conversation.getOwnerId());
     Assert.assertEquals(title, conversation.getTitle());
     Assert.assertEquals(creation, conversation.getCreationTime());
+    Assert.assertEquals(participants, conversation.getParticipants());
+
+    /** addParticipant test */
+    conversation.addParticipant("Test_Participant_3");
+    participants.add("Test_Participant_3");
+
+    Assert.assertEquals(participants, conversation.getParticipants());
+
+    /** deleteParticipant test */
+    conversation.deleteParticipant("Test_Participant_1");
+    participants.remove("Test_Participant_1");
+
+    Assert.assertEquals(participants, conversation.getParticipants());
+
+    /** setPrivacyStatus test */
+    String privacyStatus = "Private";
+    conversation.setPrivacyStatus(privacyStatus);  //makes private
+    Assert.assertEquals(privacyStatus, conversation.getPrivacyStatus());
+
   }
 }

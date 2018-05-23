@@ -101,7 +101,10 @@ public class PersistentDataStore {
         UUID ownerUuid = UUID.fromString((String) entity.getProperty("owner_uuid"));
         String title = (String) entity.getProperty("title");
         Instant creationTime = Instant.parse((String) entity.getProperty("creation_time"));
-        Conversation conversation = new Conversation(uuid, ownerUuid, title, creationTime);
+        ArrayList<String> participants = (ArrayList<String>) entity.getProperty("participants");
+        String privacyStatus = (String) entity.getProperty("privacy_status");
+        Conversation conversation = new Conversation(uuid, ownerUuid, title, creationTime, participants);
+        conversation.setPrivacyStatus(privacyStatus);
         conversations.add(conversation);
       } catch (Exception e) {
         // In a production environment, errors should be very rare. Errors which may
@@ -194,6 +197,25 @@ public class PersistentDataStore {
     conversationEntity.setProperty("owner_uuid", conversation.getOwnerId().toString());
     conversationEntity.setProperty("title", conversation.getTitle());
     conversationEntity.setProperty("creation_time", conversation.getCreationTime().toString());
+    conversationEntity.setProperty("participants", conversation.getParticipants());
+    conversationEntity.setProperty("privacy_status", conversation.getPrivacyStatus());
     datastore.put(conversationEntity);
+  }
+
+  /** Updates a Conversation object with updated participants list. */
+  public void updateConversation(ArrayList<String> participants, UUID id) {
+
+    // Retrieve all conversations from the datastore.
+    Query query = new Query("chat-conversations");
+    PreparedQuery results = datastore.prepare(query);
+
+    for (Entity entity : results.asIterable()) {
+      UUID uuid = UUID.fromString((String) entity.getProperty("uuid"));
+      if (uuid.equals(id)){
+        Entity updatedConversationEntity = entity;
+        updatedConversationEntity.setProperty("participants", participants);
+        datastore.put(updatedConversationEntity);
+      }
+    }
   }
 }
