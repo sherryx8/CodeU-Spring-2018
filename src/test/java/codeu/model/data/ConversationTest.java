@@ -46,9 +46,16 @@ public class ConversationTest {
 
     Assert.assertEquals(participants, conversation.getParticipants());
 
-    /** changePrivacy test */
-    conversation.changePrivacy(true);  //makes private
-    Assert.assertEquals(true, conversation.getPrivacyStatus());
+    /** deleteParticipant test */
+    conversation.deleteParticipant("Test_Participant_1");
+    participants.remove("Test_Participant_1");
+
+    Assert.assertEquals(participants, conversation.getParticipants());
+
+    /** setPrivacyStatus test */
+    String privacyStatus = "Private";
+    conversation.setPrivacyStatus(privacyStatus);  //makes private
+    Assert.assertEquals(privacyStatus, conversation.getPrivacyStatus());
 
   }
 }
