@@ -17,6 +17,7 @@ package codeu.model.store.basic;
 import codeu.model.data.Conversation;
 import codeu.model.store.persistence.PersistentStorageAgent;
 import java.util.ArrayList;
+import java.util.UUID;
 import java.util.List;
 
 /**
@@ -116,5 +117,17 @@ public class ConversationStore {
   /** Sets the List of Conversations stored by this ConversationStore. */
   public void setConversations(List<Conversation> conversations) {
     this.conversations = conversations;
+  }
+
+  /** Update Conversation whenever there's a change */
+  public void updateConversation(Conversation newConversation, UUID id, ArrayList<String> participants) {
+    for (Conversation conversation: conversations) {
+      if (conversation.getId().equals(id)){
+        conversations.remove(conversation);
+        conversations.add(newConversation);
+        persistentStorageAgent.updateConversation(participants, id);
+        return;
+      }
+    }
   }
 }

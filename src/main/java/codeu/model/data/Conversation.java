@@ -16,6 +16,7 @@ package codeu.model.data;
 
 import java.time.Instant;
 import java.util.UUID;
+import java.util.ArrayList;
 
 /**
  * Class representing a conversation, which can be thought of as a chat room. Conversations are
@@ -26,6 +27,10 @@ public class Conversation {
   public final UUID owner;
   public final Instant creation;
   public final String title;
+  /** Store the names of participants in a particular Conversation */
+  private ArrayList<String> participants;
+  /** Privacy status of Conversation: 0 for Public, 1 for Private; "Public" by default */
+  private String privacyStatus = "Public";
 
   /**
    * Constructs a new Conversation.
@@ -35,11 +40,12 @@ public class Conversation {
    * @param title the title of this Conversation
    * @param creation the creation time of this Conversation
    */
-  public Conversation(UUID id, UUID owner, String title, Instant creation) {
+  public Conversation(UUID id, UUID owner, String title, Instant creation, ArrayList<String> participants) {
     this.id = id;
     this.owner = owner;
     this.creation = creation;
     this.title = title;
+    this.participants = participants;
   }
 
   /** Returns the ID of this Conversation. */
@@ -60,5 +66,30 @@ public class Conversation {
   /** Returns the creation time of this Conversation. */
   public Instant getCreationTime() {
     return creation;
+  }
+
+  /** Returns the privacy status of this Conversation. */
+  public String getPrivacyStatus(){
+    return privacyStatus;
+  }
+
+  /** Changes privacy status of this Conversation to given status. */
+  public void setPrivacyStatus(String status){
+    this.privacyStatus = status;
+  }
+
+  /** Returns the names of participants in this Conversation. */
+  public ArrayList<String> getParticipants() {
+    return participants;
+  }
+
+  /** Adds a member to the participants. */
+  public void addParticipant(String userName) {
+    participants.add(userName);
+  }
+
+  /** Deletes a member of a participant. */
+  public void deleteParticipant(String userName) {
+    participants.remove(userName);
   }
 }
