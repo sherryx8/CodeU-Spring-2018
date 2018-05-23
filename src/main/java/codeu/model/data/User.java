@@ -71,6 +71,7 @@ public class User {
   public void setAboutMe(String newAboutMe) {
     aboutMe = newAboutMe;
     return;
+  }
 
   /** Returns list of other users in conversations of this User. */
   public ArrayList<User> getUserContactCache(){
