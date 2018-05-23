@@ -27,12 +27,15 @@ public class UserTest {
     String name = "test_username";
     String password = "password";
     Instant creation = Instant.now();
+    String aboutMe = "This is fake about me.";
 
     User user = new User(id, name, password, creation);
+    user.setAboutMe(aboutMe);
 
     Assert.assertEquals(id, user.getId());
     Assert.assertEquals(name, user.getName());
     Assert.assertEquals(password, user.getPassword());
     Assert.assertEquals(creation, user.getCreationTime());
+    Assert.assertEquals(aboutMe, user.getAboutMe());
   }
 }
