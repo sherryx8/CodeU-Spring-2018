@@ -57,10 +57,10 @@ Collections.reverse(userMessages);
 		<% String name = request.getSession().getAttribute("user") + ""; %>
 		<% if (name.equals(userName)) { %>
 		<h3>Edit your About Me (only you can see this)</h3>
-		<form>
-			<textarea rows="4" cols="115"> </textarea>
+		<form action="/users/<%= name %>" method="POST">
+			<textarea rows="4" cols="115" name="aboutme"> </textarea>
 			<br/>
-			<input type="submit" value="Submit">
+			<button type="submit">Submit</button>
 		</form>
 		<% } %>
 		<hr/>
