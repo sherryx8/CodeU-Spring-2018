@@ -15,6 +15,7 @@
 package codeu.model.data;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.UUID;
 
 /** Class representing a registered user. */
@@ -22,6 +23,7 @@ public class User {
   private final UUID id;
   private final String name;
   private final String hashedPassword;
+  private final ArrayList<User> userContactCache = new ArrayList<User>();
   private final Instant creation;
   private String aboutMe;
 
@@ -69,5 +71,10 @@ public class User {
   public void setAboutMe(String newAboutMe) {
     aboutMe = newAboutMe;
     return;
+  }
+
+  /** Returns list of other users in conversations of this User. */
+  public ArrayList<User> getUserContactCache(){
+    return userContactCache;
   }
 }
