@@ -53,6 +53,13 @@ public class PersistentStorageAgentTest {
   }
 
   @Test
+  public void testUpdate() {
+    User user = new User(UUID.randomUUID(), "test_username", "password", Instant.now());
+    persistentStorageAgent.update("fake_about_me", "test_username");
+    Mockito.verify(mockPersistentDataStore).update("fake_about_me", "test_username");
+  }
+
+  @Test
   public void testWriteThroughConversation() {
     ArrayList<String> participants = new ArrayList<String>();
     participants.add("Test_Participant_1");

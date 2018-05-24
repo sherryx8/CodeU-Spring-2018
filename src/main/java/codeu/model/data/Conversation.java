@@ -29,8 +29,8 @@ public class Conversation {
   public final String title;
   /** Store the names of participants in a particular Conversation */
   private ArrayList<String> participants;
-  /** Privacy status of Conversation: "Public" by default */
-  private boolean privacyStatus = false;
+  /** Privacy status of Conversation: 0 for Public, 1 for Private; "Public" by default */
+  private String privacyStatus = "Public";
 
   /**
    * Constructs a new Conversation.
@@ -69,12 +69,12 @@ public class Conversation {
   }
 
   /** Returns the privacy status of this Conversation. */
-  public boolean getPrivacyStatus(){
+  public String getPrivacyStatus(){
     return privacyStatus;
   }
 
   /** Changes privacy status of this Conversation to given status. */
-  public void changePrivacy(boolean status){
+  public void setPrivacyStatus(String status){
     this.privacyStatus = status;
   }
 
@@ -88,8 +88,14 @@ public class Conversation {
     participants.add(userName);
   }
 
+
   /** Checks if userName is participant of this conversation. */
   public boolean checkIfParticipant(String userName){
       return participants.contains(userName);
+
+  /** Deletes a member of a participant. */
+  public void deleteParticipant(String userName) {
+    participants.remove(userName);
+
   }
 }

@@ -121,4 +121,18 @@ public class UserStore {
   public void setUsers(List<User> users) {
     this.users = users;
   }
+
+  /** Update user whenever about me is updated. */
+  public void updateUser(User newUser, String username, String aboutMe) {
+    for (User user : users) {
+      if (user.getName().equals(username)) {
+        users.remove(user);
+        users.add(newUser);
+        persistentStorageAgent.update(aboutMe, username);
+        return;
+      }
+    }
+
+
+  }
 }

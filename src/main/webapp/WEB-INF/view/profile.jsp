@@ -49,18 +49,24 @@ Collections.reverse(userMessages);
 	<div id="container">
 
 		<h1><%= userName %>'s Profile Page</h1>
+		<% String name = request.getSession().getAttribute("user") + ""; %>
+		<% if (!(name.equals(userName))) { %>
+		<form action = "/conversations" method = "post">
+			<button type="submit" name="message" value="<%=userName%>">Message</button>
+		</form>
+		<% } %>
+
 		<hr/>
 
 		<h2>About <%= userName %></h2>
 		<p><%= aboutMe %></p>
 		<br/>
-		<% String name = request.getSession().getAttribute("user") + ""; %>
 		<% if (name.equals(userName)) { %>
 		<h3>Edit your About Me (only you can see this)</h3>
-		<form>
-			<textarea rows="4" cols="115"> </textarea>
+		<form action="/users/<%= name %>" method="POST">
+			<textarea rows="4" cols="115" name="aboutme"> </textarea>
 			<br/>
-			<input type="submit" value="Submit">
+			<button type="submit">Submit</button>
 		</form>
 		<% } %>
 		<hr/>
