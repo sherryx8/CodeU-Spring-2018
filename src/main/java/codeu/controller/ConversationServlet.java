@@ -101,10 +101,17 @@ public class ConversationServlet extends HttpServlet {
     }
 
     String conversationTitle = request.getParameter("conversationTitle");
-    if (!conversationTitle.matches("[\\w*]*")) {
-      request.setAttribute("error", "Please enter only letters and numbers.");
-      request.getRequestDispatcher("/WEB-INF/view/conversations.jsp").forward(request, response);
-      return;
+    String conversationTitle2 = "";
+    if (conversationTitle != null){
+      if (!conversationTitle.matches("[\\w*]*")) {
+        request.setAttribute("error", "Please enter only letters and numbers.");
+        request.getRequestDispatcher("/WEB-INF/view/conversations.jsp").forward(request, response);
+        return;
+      }
+    }else{
+      String otherUsername = (String) request.getParameter("message");
+      conversationTitle = otherUsername + "_and_" + username;
+      conversationTitle2 = username + "_and_" + otherUsername;
     }
 
     ArrayList<String> participants = new ArrayList<String>();
@@ -114,6 +121,9 @@ public class ConversationServlet extends HttpServlet {
       // conversation title is already taken, just go into that conversation instead of creating a
       // new one
       response.sendRedirect("/chat/" + conversationTitle);
+      return;
+    }else if (conversationStore.isTitleTaken(conversationTitle2)) {
+      response.sendRedirect("/chat/" + conversationTitle2);
       return;
     }
 
