@@ -92,6 +92,7 @@ public class Conversation {
   /** Checks if userName is participant of this conversation. */
   public boolean checkIfParticipant(String userName){
       return participants.contains(userName);
+  }
 
   /** Deletes a member of a participant. */
   public void deleteParticipant(String userName) {

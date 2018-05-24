@@ -32,7 +32,7 @@ public class ConversationStoreTest {
 
     final List<Conversation> conversationList = new ArrayList<>();
     conversationList.add(CONVERSATION_ONE);
-    CONVERSATION_PRIVATE.changePrivacy(true);
+    CONVERSATION_PRIVATE.setPrivacyStatus("Private");
     conversationList.add(CONVERSATION_PRIVATE);
     conversationStore.setConversations(conversationList);
   }

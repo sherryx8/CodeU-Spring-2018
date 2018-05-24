@@ -16,6 +16,8 @@ package codeu.model.store.basic;
 
 import codeu.model.data.Message;
 import codeu.model.store.persistence.PersistentStorageAgent;
+import codeu.model.store.basic.ConversationStore;
+import codeu.model.data.Conversation;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -107,13 +109,21 @@ public class MessageStore {
     this.messages = messages;
   }
 
-  /** Returns a list of Messages for a given UserID. */
+
+  /** Returns a list of Public Messages for a given UserID. */
   public List<Message> getMessagesForUser (UUID userID){
     List<Message> userMessages = new ArrayList<Message>();
+    ConversationStore conversationStore = ConversationStore.getInstance();
 
     for (Message message : messages) {
       if (message.getAuthorId() == userID){
-        userMessages.add(message);
+        // Only add conversations that are public. 
+        UUID conversationId = message.getConversationId();
+        Conversation conversation = conversationStore.getConversationWithId(conversationId);
+        if (conversation == null || conversation.getPrivacyStatus().equals("Public")){
+          userMessages.add(message);
+        }
+        
       }
     }
     

@@ -123,7 +123,7 @@ public class ChatServletTest {
     participants.add("accessUser");
     Conversation privateConversation =
         new Conversation(privateConversationId, UUID.randomUUID(), "private_conversation", Instant.now(), participants);
-    privateConversation.changePrivacy(true);
+    privateConversation.setPrivacyStatus("Private");
 
     // Try accessing conversation.
     Mockito.when(mockSession.getAttribute("user")).thenReturn("accessUser");   
@@ -149,7 +149,7 @@ public class ChatServletTest {
     participants.add("accessUser");
     Conversation privateConversation =
         new Conversation(privateConversationId, UUID.randomUUID(), "private_conversation", Instant.now(), participants);
-    privateConversation.changePrivacy(true);
+    privateConversation.setPrivacyStatus("Private");
 
     // Try accessing conversation.
     Mockito.when(mockSession.getAttribute("user")).thenReturn("noAccessUser");   
