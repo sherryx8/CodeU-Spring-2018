@@ -95,4 +95,9 @@
     <servlet-name>LogoutServlet</servlet-name>
     <url-pattern>/logout</url-pattern>
   </servlet-mapping>
+
+  <error-page>
+    <error-code>404</error-code>
+    <location>/WEB-INF/view/error404.jsp</location>
+  </error-page>
 </web-app>
