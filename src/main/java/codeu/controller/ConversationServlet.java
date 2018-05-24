@@ -86,6 +86,7 @@ public class ConversationServlet extends HttpServlet {
       throws IOException, ServletException {
 
     String username = (String) request.getSession().getAttribute("user");
+    String otherUsername = (String) request.getParameter("message");
     if (username == null) {
       // user is not logged in, don't let them create a conversation
       response.sendRedirect("/conversations");
@@ -109,13 +110,13 @@ public class ConversationServlet extends HttpServlet {
         return;
       }
     }else{
-      String otherUsername = (String) request.getParameter("message");
       conversationTitle = otherUsername + "_and_" + username;
       conversationTitle2 = username + "_and_" + otherUsername;
     }
 
     ArrayList<String> participants = new ArrayList<String>();
     participants.add(username);
+    participants.add(otherUsername);
 
     if (conversationStore.isTitleTaken(conversationTitle)) {
       // conversation title is already taken, just go into that conversation instead of creating a
