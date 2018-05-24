@@ -31,6 +31,9 @@
       <a href="/register">Register</a>
     <% } %>
     <a href="/about.jsp">About</a>
+    <% if (request.getSession().getAttribute("user") != null) { %>
+      <a href="/logout">Logout</a>
+    <% } %>
   </nav>
 
   <div id="container">
@@ -39,8 +42,8 @@
 
       <h1>About the CodeU Chat App</h1>
       <p>
-        This is a chat application designed by Team Cicada for Google CodeU Spring 2018. 
-        Stay tuned as we add cool new features and designs. 
+        This is a chat application designed by Team Cicada for Google CodeU Spring 2018.
+        Stay tuned as we add cool new features and designs.
       </p>
 
       <!-- <ul>
@@ -61,9 +64,9 @@
       <p>
         More about Team Cicada:
       </p>
-      
+
       Students
-      <ul> 
+      <ul>
         <li><strong>Catherine Tsuei</strong> Case Western Reserve University </li>
         <li><strong>Thar Min Htet</strong> Worcester Polytechnic Institute </li>
         <li><strong>Tishauna Wilson</strong> Florida A&M University </li>
@@ -76,7 +79,7 @@
       </ul>
 
 
-      
+
     </div>
   </div>
 </body>

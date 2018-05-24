@@ -31,43 +31,15 @@
       <a href="/register">Register</a>
     <% } %>
     <a href="/about.jsp">About</a>
-    <a href="/testdata">Load Test Data</a>
     <% if (request.getSession().getAttribute("user") != null) { %>
       <a href="/logout">Logout</a>
     <% } %>
   </nav>
 
   <div id="container">
-    <div
-      style="width:75%; margin-left:auto; margin-right:auto; margin-top: 50px;">
-
-      <h1>CodeU Chat App</h1>
-      <h2>Welcome!</h2>
-
-      <ul>
-        <li><a href="/login">Login</a> to get started.</li>
-        <li>Go to the <a href="/conversations">conversations</a> page to
-            create or join a conversation.</li>
-        <li>View the <a href="/about.jsp">about</a> page to learn more about the
-            project.</li>
-        <li>You can <a href="/testdata">load test data</a> to fill the site with
-            example data.</li>
-      </ul>
-
-      <h2>Team <i>Cicada</i></h2>
-      <h3>Members</h3>
-      <ul>
-        <li>Thar Min Htet</li>
-        <li>Sherry Xu</li>
-        <li>Tishauna Wilson</li>
-        <li>Catherine Tsuei</li>
-      </ul>
-      <h3>Advisor</h3>
-      <ul>
-        <li>Shashank Goyal</li>
-      </ul>
-
-    </div>
+    <h1 align="center" style="font-size:75px;"> 404 </h1>
+    <h3 align="center"> Grats! You broke it, bro. </h3>
+    <iframe align="middle" style="margin-left:160px" src="https://giphy.com/embed/l41lFw057lAJQMwg0" width="480" height="270" frameBorder="0" class="giphy-embed"></iframe><p></p>
   </div>
 </body>
 </html>

@@ -54,6 +54,16 @@ public class ProfileServlet extends HttpServlet {
     String aboutMe = "Nothing to see here.";
 
     User user = userStore.getUser(userName);
+
+    if (user == null) {
+      // couldn't find user, redirect to page not found
+      System.out.println("User was null: " + userName);
+      request.getRequestDispatcher("/WEB-INF/view/error404.jsp").forward(request, response);
+      return;
+    }
+
+
+    // check if User has an updated about-me already
     if (user.getAboutMe() != null){
       aboutMe = user.getAboutMe();
     }
