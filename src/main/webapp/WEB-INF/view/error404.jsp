@@ -38,7 +38,7 @@
 
   <div id="container">
     <h1 align="center" style="font-size:75px;"> 404 </h1>
-    <h3 align="center"> Grats! You broke it, bro. </h3>
+    <h3 align="center"> Grats! You broke it, bro. The user you're looking for doesn't exist. </h3>
     <iframe align="middle" style="margin-left:160px" src="https://giphy.com/embed/l41lFw057lAJQMwg0" width="480" height="270" frameBorder="0" class="giphy-embed"></iframe><p></p>
   </div>
 </body>
