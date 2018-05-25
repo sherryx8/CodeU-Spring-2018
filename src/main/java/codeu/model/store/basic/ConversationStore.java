@@ -87,6 +87,18 @@ public class ConversationStore {
     return conversations;
   }
 
+  // Get all public conversations
+  public List<Conversation> getAllPublicConversations() {
+    List<Conversation> publicConversations = new ArrayList<Conversation>();
+    for (Conversation conversation: conversations){
+      if (conversation.getPrivacyStatus().equals("Public")){
+        publicConversations.add(conversation);
+      }
+    }
+    return publicConversations;
+  }
+
+
   /** Add a new conversation to the current set of conversations known to the application. */
   public void addConversation(Conversation conversation) {
     conversations.add(conversation);
@@ -108,6 +120,16 @@ public class ConversationStore {
   public Conversation getConversationWithTitle(String title) {
     for (Conversation conversation : conversations) {
       if (conversation.getTitle().equals(title)) {
+        return conversation;
+      }
+    }
+    return null;
+  }
+
+    /** Find and return the Conversation with the given UUID. */
+  public Conversation getConversationWithId(UUID uuid) {
+    for (Conversation conversation : conversations) {
+      if (conversation.getId().equals(uuid)) {
         return conversation;
       }
     }

@@ -20,6 +20,10 @@ public class ConversationStoreTest {
   private final Conversation CONVERSATION_ONE =
       new Conversation(
           UUID.randomUUID(), UUID.randomUUID(), "conversation_one", Instant.ofEpochMilli(1000), participants);
+  private final Conversation CONVERSATION_PRIVATE =
+      new Conversation(
+          UUID.randomUUID(), UUID.randomUUID(), "conversation_private", Instant.ofEpochMilli(1000), participants);
+  
 
   @Before
   public void setup() {
@@ -28,6 +32,8 @@ public class ConversationStoreTest {
 
     final List<Conversation> conversationList = new ArrayList<>();
     conversationList.add(CONVERSATION_ONE);
+    CONVERSATION_PRIVATE.setPrivacyStatus("Private");
+    conversationList.add(CONVERSATION_PRIVATE);
     conversationStore.setConversations(conversationList);
   }
 
@@ -44,6 +50,12 @@ public class ConversationStoreTest {
     Conversation resultConversation = conversationStore.getConversationWithTitle("unfound_title");
 
     Assert.assertNull(resultConversation);
+  }
+
+  @Test
+  public void testGetAllPublicConversations() {
+    List<Conversation> conversationList = conversationStore.getAllPublicConversations();
+    Assert.assertFalse(conversationList.contains(CONVERSATION_PRIVATE));
   }
 
   @Test

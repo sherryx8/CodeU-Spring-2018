@@ -112,6 +112,57 @@ public class ChatServletTest {
     Mockito.verify(mockResponse).sendRedirect("/conversations");
   }
 
+  // Test user access to private Conversation for user with access.
+  @Test
+  public void testDoGet_accessUserPrivateConversation() throws IOException, ServletException {
+    // Create mock user without access to private conversation
+
+    // Create a private conversation with only access to "accessUser".
+    UUID privateConversationId = UUID.randomUUID();
+    ArrayList<String> participants = new ArrayList<String>();
+    participants.add("accessUser");
+    Conversation privateConversation =
+        new Conversation(privateConversationId, UUID.randomUUID(), "private_conversation", Instant.now(), participants);
+    privateConversation.setPrivacyStatus("Private");
+
+    // Try accessing conversation.
+    Mockito.when(mockSession.getAttribute("user")).thenReturn("accessUser");   
+    Mockito.when(mockRequest.getRequestURI()).thenReturn("/chat/private_conversation");
+    Mockito.when(mockConversationStore.getConversationWithTitle("private_conversation"))
+        .thenReturn(privateConversation);
+
+    chatServlet.doGet(mockRequest, mockResponse);
+
+    // Verify User recieved access
+    Mockito.verify(mockRequest).setAttribute("conversation", privateConversation);
+    Mockito.verify(mockRequestDispatcher).forward(mockRequest, mockResponse);
+  }
+
+  // Test user access to private Conversation for user without access.
+  @Test
+  public void testDoGet_noAccessUserPrivateConversation() throws IOException, ServletException {
+    // Create mock user without access to private conversation
+
+    // Create a private conversation with only access to "accessUser".
+    UUID privateConversationId = UUID.randomUUID();
+    ArrayList<String> participants = new ArrayList<String>();
+    participants.add("accessUser");
+    Conversation privateConversation =
+        new Conversation(privateConversationId, UUID.randomUUID(), "private_conversation", Instant.now(), participants);
+    privateConversation.setPrivacyStatus("Private");
+
+    // Try accessing conversation.
+    Mockito.when(mockSession.getAttribute("user")).thenReturn("noAccessUser");   
+    Mockito.when(mockRequest.getRequestURI()).thenReturn("/chat/private_conversation");
+    Mockito.when(mockConversationStore.getConversationWithTitle("private_conversation"))
+        .thenReturn(privateConversation);
+
+    chatServlet.doGet(mockRequest, mockResponse);
+
+    // Verify User did not recieve access and was redirected to conversations page.
+    Mockito.verify(mockResponse).sendRedirect("/conversations");
+  }
+
   @Test
   public void testDoPost_UserNotLoggedIn() throws IOException, ServletException {
     Mockito.when(mockSession.getAttribute("user")).thenReturn(null);

@@ -71,7 +71,7 @@ public class ConversationServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response)
       throws IOException, ServletException {
-    List<Conversation> conversations = conversationStore.getAllConversations();
+    List<Conversation> conversations = conversationStore.getAllPublicConversations();
     request.setAttribute("conversations", conversations);
     request.getRequestDispatcher("/WEB-INF/view/conversations.jsp").forward(request, response);
   }
@@ -103,6 +103,7 @@ public class ConversationServlet extends HttpServlet {
 
     String conversationTitle = request.getParameter("conversationTitle");
     String conversationTitle2 = "";
+    String conversationPrivacy= "Public";
     if (conversationTitle != null){
       if (!conversationTitle.matches("[\\w*]*")) {
         request.setAttribute("error", "Please enter only letters and numbers.");
@@ -112,6 +113,7 @@ public class ConversationServlet extends HttpServlet {
     }else{
       conversationTitle = otherUsername + "_and_" + username;
       conversationTitle2 = username + "_and_" + otherUsername;
+      conversationPrivacy = "Private";
     }
 
     ArrayList<String> participants = new ArrayList<String>();
@@ -130,6 +132,7 @@ public class ConversationServlet extends HttpServlet {
 
     Conversation conversation =
         new Conversation(UUID.randomUUID(), user.getId(), conversationTitle, Instant.now(), participants);
+    conversation.setPrivacyStatus(conversationPrivacy);
 
     conversationStore.addConversation(conversation);
     response.sendRedirect("/chat/" + conversationTitle);
