@@ -13,13 +13,10 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 --%>
-<%@ page import="java.util.List" %>
-<%@ page import="codeu.model.data.Conversation" %>
-
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Conversations</title>
+  <title>Error 404</title>
   <link rel="stylesheet" href="/css/main.css">
 </head>
 <body>
@@ -40,51 +37,9 @@
   </nav>
 
   <div id="container">
-
-    <% if(request.getAttribute("error") != null){ %>
-        <h2 style="color:red"><%= request.getAttribute("error") %></h2>
-    <% } %>
-
-    <% if(request.getSession().getAttribute("user") != null){ %>
-      <h1>New Conversation</h1>
-      <form action="/conversations" method="POST">
-          <div class="form-group">
-            <label class="form-control-label">Title:</label>
-          <input type="text" name="conversationTitle">
-        </div>
-
-        <button type="submit">Create</button>
-      </form>
-
-      <hr/>
-    <% } %>
-
-    <h1>Conversations</h1>
-
-    <%
-    List<Conversation> conversations =
-      (List<Conversation>) request.getAttribute("conversations");
-    if(conversations == null || conversations.isEmpty()){
-    %>
-      <p>Create a conversation to get started.</p>
-    <%
-    }
-    else{
-    %>
-      <ul class="mdl-list">
-    <%
-      for(Conversation conversation : conversations){
-    %>
-      <li><a href="/chat/<%= conversation.getTitle() %>">
-        <%= conversation.getTitle() %></a></li>
-    <%
-      }
-    %>
-      </ul>
-    <%
-    }
-    %>
-    <hr/>
+    <h1 align="center" style="font-size:75px;"> 404 </h1>
+    <h3 align="center"> Grats! You broke it, bro. The user you're looking for doesn't exist. </h3>
+    <iframe align="middle" style="margin-left:160px" src="https://giphy.com/embed/l41lFw057lAJQMwg0" width="480" height="270" frameBorder="0" class="giphy-embed"></iframe><p></p>
   </div>
 </body>
 </html>
