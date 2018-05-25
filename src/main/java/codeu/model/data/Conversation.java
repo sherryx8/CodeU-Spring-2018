@@ -30,7 +30,7 @@ public class Conversation {
   /** Store the names of participants in a particular Conversation */
   private ArrayList<String> participants;
   /** Privacy status of Conversation: 0 for Public, 1 for Private; "Public" by default */
-  private String privacyStatus = "Public";
+  private String privacyStatus;
 
   /**
    * Constructs a new Conversation.
@@ -46,6 +46,7 @@ public class Conversation {
     this.creation = creation;
     this.title = title;
     this.participants = participants;
+    this.privacyStatus = "Public";
   }
 
   /** Returns the ID of this Conversation. */
